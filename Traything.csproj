@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{055FDFDB-BE94-4DD1-AA3C-7379CE310008}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Traything</RootNamespace>
+    <AssemblyName>Traything</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Traything.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionItem.cs" />
+    <Compile Include="FrmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAbout.Designer.cs">
+      <DependentUpon>FrmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmEditActionItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEditActionItem.Designer.cs">
+      <DependentUpon>FrmEditActionItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmVlcPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmVlcPlayer.Designer.cs">
+      <DependentUpon>FrmVlcPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="TaskbarHelper.cs" />
+    <Compile Include="FrmBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBrowser.Designer.cs">
+      <DependentUpon>FrmBrowser.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FrmAbout.resx">
+      <DependentUpon>FrmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBrowser.resx">
+      <DependentUpon>FrmBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditActionItem.resx">
+      <DependentUpon>FrmEditActionItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmVlcPlayer.resx">
+      <DependentUpon>FrmVlcPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CefSharp.WinForms">
+      <Version>106.0.260</Version>
+    </PackageReference>
+    <PackageReference Include="LibVLCSharp.WinForms">
+      <Version>3.6.7</Version>
+    </PackageReference>
+    <PackageReference Include="VideoLAN.LibVLC.Windows">
+      <Version>3.0.17.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="PostBuildMacros">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Targets" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <VersionNumber Include="$([System.Text.RegularExpressions.Regex]::Replace(&quot;%(Targets.Version)&quot;, &quot;^(.+?)(\.0+)$&quot;, &quot;$1&quot;))" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>if $(ConfigurationName)==Release (
+
+  if exist "$(SolutionDir).deploy" rd /S /Q "$(SolutionDir).deploy"
+
+  timeout /T 2
+
+  mkdir "$(SolutionDir).deploy"
+
+)</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+    $(PostBuildEventDependsOn);
+    PostBuildMacros;
+  </PostBuildEventDependsOn>
+    <PostBuildEvent>if $(ConfigurationName)==Release (
+
+  PowerShell -ExecutionPolicy Unrestricted -Command "Expand-Archive '$(SolutionDir)vcredist.zip' -DestinationPath '$(TargetDir)'"
+  PowerShell -ExecutionPolicy Unrestricted -Command "Get-ChildItem '$(TargetDir)*.exe' | Compress-Archive -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+  PowerShell -ExecutionPolicy Unrestricted -Command "Get-ChildItem '$(TargetDir)*.dll' | Compress-Archive -Update -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+  PowerShell -ExecutionPolicy Unrestricted -Command "Get-ChildItem '$(TargetDir)*.bin' | Compress-Archive -Update -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+  PowerShell -ExecutionPolicy Unrestricted -Command "Get-ChildItem '$(TargetDir)*.pak' | Compress-Archive -Update -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+  PowerShell -ExecutionPolicy Unrestricted -Command "Get-ChildItem '$(TargetDir)*.dat' | Compress-Archive -Update -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+  PowerShell -ExecutionPolicy Unrestricted -Command Compress-Archive -Update -Path '$(TargetDir)locales' -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+  PowerShell -ExecutionPolicy Unrestricted -Command Compress-Archive -Update -Path '$(TargetDir)libvlc' -DestinationPath '$(SolutionDir).deploy\Traything_@(VersionNumber).zip'"
+)</PostBuildEvent>
+  </PropertyGroup>
+</Project>
