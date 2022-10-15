@@ -1,7 +1,6 @@
 <div align="center">
-<img alt="Logo" height="50" src="https://raw.githubusercontent.com/berrnd/Traything/master/logo.svg?sanitize=true" />
-<h3>Traything</h3>
-<h4>A simple but practical (Windows) tray helper tool<br>Created by <a href="https://github.com/berrnd">@berrnd</a></h4>
+<img alt="Logo" height="50" src="https://raw.githubusercontent.com/berrnd/Traything/main/logo.svg?sanitize=true" />
+<h3>A simple but practical (Windows) tray helper tool<br>Created by <a href="https://github.com/berrnd">@berrnd</a></h3>
 </div>
 
 -----
@@ -42,13 +41,13 @@ There is none. The progress of a specific bug/enhancement is always tracked in t
 
 ## Screenshots
 
-![tray-menu](https://github.com/berrnd/Traything/raw/master/.github/publication_assets/tray-menu.png "tray-menu")
+![tray-menu](https://github.com/berrnd/Traything/raw/main/.github/publication_assets/tray-menu.png "tray-menu")
 
-![main-window](https://github.com/berrnd/Traything/raw/master/.github/publication_assets/main-window.png "main-window")
+![main-window](https://github.com/berrnd/Traything/raw/main/.github/publication_assets/main-window.png "main-window")
 
-![edit-item](https://github.com/berrnd/Traything/raw/master/.github/publication_assets/edit-item.png "edit-item")
+![edit-item](https://github.com/berrnd/Traything/raw/main/.github/publication_assets/edit-item.png "edit-item")
 
-![actions](https://github.com/berrnd/Traything/raw/master/.github/publication_assets/actions.mp4 "actions")
+![actions](https://github.com/berrnd/Traything/raw/main/.github/publication_assets/actions.mp4 "actions")
 
 ## How to build
 
