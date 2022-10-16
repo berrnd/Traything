@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Traything
@@ -11,16 +13,32 @@ namespace Traything
         public FrmMain()
         {
             InitializeComponent();
+
+            this.ConfigFileWatcher = new FileSystemWatcher();
         }
 
         private Settings Settings;
         private FrmBrowser Browser;
         private FrmVlcPlayer VlcPlayer;
+        private FileSystemWatcher ConfigFileWatcher;
 
         private void FrmMain_Shown(object sender, EventArgs e)
         {
             this.Hide();
             this.Reload();
+
+            if (File.Exists(Settings._Path))
+            {
+                this.ConfigFileWatcher.Path = Path.GetDirectoryName(Settings._Path);
+                this.ConfigFileWatcher.Filter = Path.GetFileName(Settings._Path);
+                this.ConfigFileWatcher.Changed += ConfigFileWatcher_Changed;
+                this.ConfigFileWatcher.EnableRaisingEvents = true;
+            }
+        }
+
+        private void ConfigFileWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() => { this.Reload(); })));
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -48,7 +66,9 @@ namespace Traything
             }
             else
             {
+                this.ConfigFileWatcher.EnableRaisingEvents = false;
                 this.Settings.Save();
+                this.ConfigFileWatcher.EnableRaisingEvents = true;
             }
 
             this.Reload();
@@ -190,7 +210,9 @@ namespace Traything
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 this.Settings.Actions.Add(dlg.EditItem);
+                this.ConfigFileWatcher.EnableRaisingEvents = false;
                 this.Settings.Save();
+                this.ConfigFileWatcher.EnableRaisingEvents = true;
                 this.Reload();
                 this.ListBoxActions.SelectedIndex = this.ListBoxActions.Items.Count - 1;
             }
@@ -201,7 +223,9 @@ namespace Traything
             if (MessageBox.Show("Are you sure to remove \"" + this.ListBoxActions.SelectedItem.ToString() + "\"?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 this.Settings.Actions.Remove((ActionItem)this.ListBoxActions.SelectedItem);
+                this.ConfigFileWatcher.EnableRaisingEvents = false;
                 this.Settings.Save();
+                this.ConfigFileWatcher.EnableRaisingEvents = true;
                 this.Reload();
 
                 this.ButtonEdit.Enabled = false;
@@ -217,7 +241,9 @@ namespace Traything
 
             this.Settings.Actions.RemoveAt(this.ListBoxActions.SelectedIndex);
             this.Settings.Actions.Insert(newIndex, (ActionItem)this.ListBoxActions.SelectedItem);
+            this.ConfigFileWatcher.EnableRaisingEvents = false;
             this.Settings.Save();
+            this.ConfigFileWatcher.EnableRaisingEvents = true;
             this.Reload();
             this.ListBoxActions.SelectedIndex = newIndex;
         }
@@ -228,7 +254,9 @@ namespace Traything
 
             this.Settings.Actions.RemoveAt(this.ListBoxActions.SelectedIndex);
             this.Settings.Actions.Insert(newIndex, (ActionItem)this.ListBoxActions.SelectedItem);
+            this.ConfigFileWatcher.EnableRaisingEvents = false;
             this.Settings.Save();
+            this.ConfigFileWatcher.EnableRaisingEvents = true;
             this.Reload();
             this.ListBoxActions.SelectedIndex = newIndex;
         }
