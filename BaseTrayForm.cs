@@ -93,6 +93,7 @@ namespace Traything
         private void BaseTrayForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
+            this.WindowState = FormWindowState.Normal; // Needs to happen here / only has an effect while the window is visible
             this.Hide();
         }
 
