@@ -7,51 +7,51 @@ using System.Windows.Forms;
 
 namespace Traything
 {
-    public partial class FrmBrowser : BaseTrayForm
-    {
-        public FrmBrowser()
-        {
-            InitializeComponent();
-        }
+	public partial class FrmBrowser : BaseTrayForm
+	{
+		public FrmBrowser()
+		{
+			InitializeComponent();
+		}
 
-        private ChromiumWebBrowser Browser;
+		private ChromiumWebBrowser Browser;
 
-        private void SetupCef()
-        {
-            if (!Cef.IsInitialized)
-            {
-                Cef.EnableHighDPISupport();
+		private void SetupCef()
+		{
+			if (!Cef.IsInitialized)
+			{
+				Cef.EnableHighDPISupport();
 
-                CefSettings cefSettings = new CefSettings();
-                cefSettings.BrowserSubprocessPath = Path.Combine(Program.BaseExecutingPath, @"CefSharp.BrowserSubprocess.exe");
-                cefSettings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
-                cefSettings.UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
-                cefSettings.LogSeverity = LogSeverity.Disable;
-                cefSettings.CefCommandLineArgs.Add("--enable-media-stream", "");
-                cefSettings.CefCommandLineArgs.Add("--lang", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+				CefSettings cefSettings = new CefSettings();
+				cefSettings.BrowserSubprocessPath = Path.Combine(Program.BaseExecutingPath, @"CefSharp.BrowserSubprocess.exe");
+				cefSettings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
+				cefSettings.UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
+				cefSettings.LogSeverity = LogSeverity.Disable;
+				cefSettings.CefCommandLineArgs.Add("--enable-media-stream", "");
+				cefSettings.CefCommandLineArgs.Add("--lang", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
-                Cef.Initialize(cefSettings, performDependencyCheck: false, browserProcessHandler: null);
-            }
-            
-            this.Browser = new ChromiumWebBrowser("about:blank");
-            this.Browser.Dock = DockStyle.Fill;
-            this.Controls.Add(this.Browser);
-        }
+				Cef.Initialize(cefSettings, performDependencyCheck: false, browserProcessHandler: null);
+			}
 
-        private void FrmBrowser_Shown(object sender, EventArgs e)
-        {
-            this.SetupCef();
-        }
+			this.Browser = new ChromiumWebBrowser("about:blank");
+			this.Browser.Dock = DockStyle.Fill;
+			this.Controls.Add(this.Browser);
+		}
 
-        public override void ShowTrayForm(ActionItem item)
-        {
-            this.Browser.Load(item.PathOrUrl);
-            base.ShowTrayForm(item);
-        }
+		private void FrmBrowser_Shown(object sender, EventArgs e)
+		{
+			this.SetupCef();
+		}
 
-        private void FrmBrowser_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.Browser.Load("about:blank");
-        }
-    }
+		public override void ShowTrayForm(ActionItem item)
+		{
+			this.Browser.Load(item.PathOrUrl);
+			base.ShowTrayForm(item);
+		}
+
+		private void FrmBrowser_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			this.Browser.Load("about:blank");
+		}
+	}
 }
