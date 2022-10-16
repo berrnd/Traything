@@ -15,6 +15,7 @@ namespace Traything
 
 		private LibVLC VlcLib;
 		private VideoView VlcVideoView;
+		private TransparentPanel VlcPlayerOverlayPanel;
 
 		private void SetupVlc()
 		{
@@ -27,6 +28,24 @@ namespace Traything
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
 			this.TableLayoutPanelMain.Controls.Add(this.VlcVideoView, 0, 0);
+
+			this.VlcPlayerOverlayPanel = new TransparentPanel();
+			this.VlcPlayerOverlayPanel.Dock = DockStyle.Fill;
+			this.Controls.Add(this.VlcPlayerOverlayPanel);
+			this.VlcPlayerOverlayPanel.BringToFront();
+			this.VlcPlayerOverlayPanel.DoubleClick += VlcPlayerOverlayPanel_DoubleClick;
+		}
+
+		private void VlcPlayerOverlayPanel_DoubleClick(object sender, EventArgs e)
+		{
+			if (this.WindowState == FormWindowState.Maximized)
+			{
+				this.WindowState = FormWindowState.Normal;
+			}
+			else
+			{
+				this.WindowState = FormWindowState.Maximized;
+			}
 		}
 
 		private void MediaPlayer_Playing(object sender, EventArgs e)
@@ -98,6 +117,19 @@ namespace Traything
 		private void TrackBarPlayProgress_Scroll(object sender, EventArgs e)
 		{
 			this.VlcVideoView.MediaPlayer.SeekTo(TimeSpan.FromSeconds(this.TrackBarPlayProgress.Value));
+		}
+	}
+
+	public class TransparentPanel : Panel
+	{
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams p = base.CreateParams;
+				p.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
+				return p;
+			}
 		}
 	}
 }
