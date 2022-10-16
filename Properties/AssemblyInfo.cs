@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Traything")]
-[assembly: AssemblyDescription("A simple but practical (Windows) tray helper tool")]
+[assembly: AssemblyDescription("A simple but practical (Windows) tray web browser, media / stream player and program launcher.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bernd Bestel")]
 [assembly: AssemblyProduct("Traything")]
