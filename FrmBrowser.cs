@@ -98,7 +98,7 @@ namespace Traything
 
             if (item.StayOpen)
             {
-                this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+                this.FormBorderStyle = FormBorderStyle.FixedDialog;
             }
             else
             {
