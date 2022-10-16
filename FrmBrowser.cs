@@ -85,11 +85,6 @@ namespace Traything
 			this.Location = new Point(x, y);
         }
 
-        private void FrmBrowser_Activated(object sender, EventArgs e)
-        {
-            this.SetLocation();
-        }
-
         private void FrmBrowser_Shown(object sender, EventArgs e)
         {
             this.Hide();
@@ -109,8 +104,9 @@ namespace Traything
             {
                 this.FormBorderStyle = FormBorderStyle.None;
             }
-
+            
             this.Browser.Load(item.PathOrUrl);
+            this.SetLocation();
             this.Show();
             this.Activate();
         }

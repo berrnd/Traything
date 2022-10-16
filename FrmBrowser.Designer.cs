@@ -40,7 +40,6 @@
             this.ShowInTaskbar = false;
             this.Text = "FrmBrowser";
             this.TopMost = true;
-            this.Activated += new System.EventHandler(this.FrmBrowser_Activated);
             this.Deactivate += new System.EventHandler(this.FrmBrowser_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmBrowser_FormClosing);
             this.Shown += new System.EventHandler(this.FrmBrowser_Shown);

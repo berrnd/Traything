@@ -73,11 +73,6 @@ namespace Traything
             this.Location = new Point(x, y);
         }
 
-        private void FrmVlcPlayer_Activated(object sender, EventArgs e)
-        {
-            this.SetLocation();
-        }
-
         private void FrmVlcPlayer_Shown(object sender, EventArgs e)
         {
             this.Hide();
@@ -99,6 +94,7 @@ namespace Traything
             }
 
             this.VlcVideoView.MediaPlayer.Play(new Media(this.VlcLib, new Uri(item.PathOrUrl)));
+            this.SetLocation();
             this.Show();
             this.Activate();
         }

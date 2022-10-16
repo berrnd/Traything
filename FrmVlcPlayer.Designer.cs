@@ -104,7 +104,6 @@
             this.ShowInTaskbar = false;
             this.Text = "FrmVlcPlayer";
             this.TopMost = true;
-            this.Activated += new System.EventHandler(this.FrmVlcPlayer_Activated);
             this.Deactivate += new System.EventHandler(this.FrmVlcPlayer_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmVlcPlayer_FormClosing);
             this.Shown += new System.EventHandler(this.FrmVlcPlayer_Shown);
