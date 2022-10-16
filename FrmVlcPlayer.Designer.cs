@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.FlowLayoutPanelPlayerControls = new System.Windows.Forms.FlowLayoutPanel();
-            this.ButtonPlay = new System.Windows.Forms.Button();
-            this.ButtonPause = new System.Windows.Forms.Button();
-            this.ButtonStop = new System.Windows.Forms.Button();
+            this.ButtonPlayPause = new System.Windows.Forms.Button();
+            this.ProgressBarBusy = new System.Windows.Forms.ProgressBar();
+            this.TrackBarPlayProgress = new System.Windows.Forms.TrackBar();
+            this.LabelPlayTime = new System.Windows.Forms.Label();
+            this.TimerUpdatePlayProgress = new System.Windows.Forms.Timer(this.components);
             this.TableLayoutPanelMain.SuspendLayout();
             this.FlowLayoutPanelPlayerControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackBarPlayProgress)).BeginInit();
             this.SuspendLayout();
             // 
             // TableLayoutPanelMain
@@ -54,44 +58,61 @@
             // 
             // FlowLayoutPanelPlayerControls
             // 
-            this.FlowLayoutPanelPlayerControls.Controls.Add(this.ButtonPlay);
-            this.FlowLayoutPanelPlayerControls.Controls.Add(this.ButtonPause);
-            this.FlowLayoutPanelPlayerControls.Controls.Add(this.ButtonStop);
+            this.FlowLayoutPanelPlayerControls.Controls.Add(this.ButtonPlayPause);
+            this.FlowLayoutPanelPlayerControls.Controls.Add(this.ProgressBarBusy);
+            this.FlowLayoutPanelPlayerControls.Controls.Add(this.TrackBarPlayProgress);
+            this.FlowLayoutPanelPlayerControls.Controls.Add(this.LabelPlayTime);
             this.FlowLayoutPanelPlayerControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FlowLayoutPanelPlayerControls.Location = new System.Drawing.Point(3, 428);
             this.FlowLayoutPanelPlayerControls.Name = "FlowLayoutPanelPlayerControls";
             this.FlowLayoutPanelPlayerControls.Size = new System.Drawing.Size(778, 30);
             this.FlowLayoutPanelPlayerControls.TabIndex = 0;
             // 
-            // ButtonPlay
+            // ButtonPlayPause
             // 
-            this.ButtonPlay.Location = new System.Drawing.Point(3, 3);
-            this.ButtonPlay.Name = "ButtonPlay";
-            this.ButtonPlay.Size = new System.Drawing.Size(75, 23);
-            this.ButtonPlay.TabIndex = 0;
-            this.ButtonPlay.Text = "Play";
-            this.ButtonPlay.UseVisualStyleBackColor = true;
-            this.ButtonPlay.Click += new System.EventHandler(this.ButtonPlay_Click);
+            this.ButtonPlayPause.Location = new System.Drawing.Point(3, 3);
+            this.ButtonPlayPause.Name = "ButtonPlayPause";
+            this.ButtonPlayPause.Size = new System.Drawing.Size(75, 23);
+            this.ButtonPlayPause.TabIndex = 0;
+            this.ButtonPlayPause.Text = "Play";
+            this.ButtonPlayPause.UseVisualStyleBackColor = true;
+            this.ButtonPlayPause.Click += new System.EventHandler(this.ButtonPlayPause_Click);
             // 
-            // ButtonPause
+            // ProgressBarBusy
             // 
-            this.ButtonPause.Location = new System.Drawing.Point(84, 3);
-            this.ButtonPause.Name = "ButtonPause";
-            this.ButtonPause.Size = new System.Drawing.Size(75, 23);
-            this.ButtonPause.TabIndex = 1;
-            this.ButtonPause.Text = "Pause";
-            this.ButtonPause.UseVisualStyleBackColor = true;
-            this.ButtonPause.Click += new System.EventHandler(this.ButtonPause_Click);
+            this.ProgressBarBusy.Location = new System.Drawing.Point(84, 3);
+            this.ProgressBarBusy.Name = "ProgressBarBusy";
+            this.ProgressBarBusy.Size = new System.Drawing.Size(100, 23);
+            this.ProgressBarBusy.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.ProgressBarBusy.TabIndex = 1;
             // 
-            // ButtonStop
+            // TrackBarPlayProgress
             // 
-            this.ButtonStop.Location = new System.Drawing.Point(165, 3);
-            this.ButtonStop.Name = "ButtonStop";
-            this.ButtonStop.Size = new System.Drawing.Size(75, 23);
-            this.ButtonStop.TabIndex = 2;
-            this.ButtonStop.Text = "Stop";
-            this.ButtonStop.UseVisualStyleBackColor = true;
-            this.ButtonStop.Click += new System.EventHandler(this.ButtonStop_Click);
+            this.TrackBarPlayProgress.AutoSize = false;
+            this.TrackBarPlayProgress.Location = new System.Drawing.Point(190, 3);
+            this.TrackBarPlayProgress.Maximum = 100;
+            this.TrackBarPlayProgress.Name = "TrackBarPlayProgress";
+            this.TrackBarPlayProgress.Size = new System.Drawing.Size(180, 23);
+            this.TrackBarPlayProgress.TabIndex = 3;
+            this.TrackBarPlayProgress.Visible = false;
+            this.TrackBarPlayProgress.Scroll += new System.EventHandler(this.TrackBarPlayProgress_Scroll);
+            // 
+            // LabelPlayTime
+            // 
+            this.LabelPlayTime.AutoSize = true;
+            this.LabelPlayTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelPlayTime.Location = new System.Drawing.Point(376, 0);
+            this.LabelPlayTime.Name = "LabelPlayTime";
+            this.LabelPlayTime.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.LabelPlayTime.Size = new System.Drawing.Size(99, 21);
+            this.LabelPlayTime.TabIndex = 2;
+            this.LabelPlayTime.Text = "LabelPlayTime";
+            this.LabelPlayTime.Visible = false;
+            // 
+            // TimerUpdatePlayProgress
+            // 
+            this.TimerUpdatePlayProgress.Interval = 1000;
+            this.TimerUpdatePlayProgress.Tick += new System.EventHandler(this.TimerUpdatePlayProgress_Tick);
             // 
             // FrmVlcPlayer
             // 
@@ -101,11 +122,12 @@
             this.Controls.Add(this.TableLayoutPanelMain);
             this.Name = "FrmVlcPlayer";
             this.Text = "FrmVlcPlayer";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmVlcPlayer_FormClosing);
             this.Shown += new System.EventHandler(this.FrmVlcPlayer_Shown);
             this.TableLayoutPanelMain.ResumeLayout(false);
             this.FlowLayoutPanelPlayerControls.ResumeLayout(false);
+            this.FlowLayoutPanelPlayerControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackBarPlayProgress)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -114,8 +136,10 @@
 
         private System.Windows.Forms.TableLayoutPanel TableLayoutPanelMain;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutPanelPlayerControls;
-        private System.Windows.Forms.Button ButtonPlay;
-        private System.Windows.Forms.Button ButtonPause;
-        private System.Windows.Forms.Button ButtonStop;
+        private System.Windows.Forms.Button ButtonPlayPause;
+        private System.Windows.Forms.ProgressBar ProgressBarBusy;
+        private System.Windows.Forms.Label LabelPlayTime;
+        private System.Windows.Forms.Timer TimerUpdatePlayProgress;
+        private System.Windows.Forms.TrackBar TrackBarPlayProgress;
     }
 }
