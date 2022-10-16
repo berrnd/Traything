@@ -163,11 +163,11 @@ namespace Traything
                 }
                 else if (item.Type == ActionType.ShowTrayBrowser)
                 {
-                    this.Browser.ShowTrayBrowser(item);
+                    this.Browser.ShowTrayForm(item);
                 }
                 else if (item.Type == ActionType.ShowTrayMediaPlayer)
                 {
-                    this.VlcPlayer.ShowTrayPlayer(item);
+                    this.VlcPlayer.ShowTrayForm(item);
                 }
             }
             catch (Exception ex)

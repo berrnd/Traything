@@ -6,7 +6,7 @@ namespace Traything
 {
     public class Settings
     {
-        private static string _Path = Path.Combine(Program.BaseExecutingPath, "Traything.xml");
+        private static readonly string _Path = Path.Combine(Program.BaseExecutingPath, "Traything.xml");
         public List<ActionItem> Actions = new List<ActionItem>();
 
         public static Settings Load()

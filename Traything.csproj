@@ -96,6 +96,12 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseTrayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseTrayForm.Designer.cs">
+      <DependentUpon>BaseTrayForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmVlcPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseTrayForm.resx">
+      <DependentUpon>BaseTrayForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmVlcPlayer.resx">
       <DependentUpon>FrmVlcPlayer.cs</DependentUpon>

@@ -99,13 +99,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.TableLayoutPanelMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MinimizeBox = false;
             this.Name = "FrmVlcPlayer";
-            this.ShowInTaskbar = false;
             this.Text = "FrmVlcPlayer";
             this.TopMost = true;
-            this.Deactivate += new System.EventHandler(this.FrmVlcPlayer_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmVlcPlayer_FormClosing);
             this.Shown += new System.EventHandler(this.FrmVlcPlayer_Shown);
             this.TableLayoutPanelMain.ResumeLayout(false);

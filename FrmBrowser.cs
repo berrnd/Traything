@@ -1,14 +1,13 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using System;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
 namespace Traything
 {
-    public partial class FrmBrowser : Form
+    public partial class FrmBrowser : BaseTrayForm
     {
         public FrmBrowser()
         {
@@ -16,7 +15,6 @@ namespace Traything
         }
 
         private ChromiumWebBrowser Browser;
-        private ActionItem ActionItem;
 
         private void SetupCef()
         {
@@ -40,96 +38,20 @@ namespace Traything
             this.Controls.Add(this.Browser);
         }
 
-        private void SetLocation()
-		{
-            if (this.ActionItem != null)
-            {
-                this.Width = this.ActionItem.Width;
-                this.Height = this.ActionItem.Height;
-            }
-
-            int x = 0, y = 0;
-			if (TaskbarHelper.Position == TaskbarPosition.Left)
-			{
-                x = Screen.PrimaryScreen.Bounds.Left;
-                y = Screen.PrimaryScreen.Bounds.Bottom;
-
-                x += TaskbarHelper.DisplayBounds.Width;
-                y -= this.Height;
-            }
-            else if (TaskbarHelper.Position == TaskbarPosition.Right)
-            {
-                x = Screen.PrimaryScreen.Bounds.Right;
-                y = Screen.PrimaryScreen.Bounds.Bottom;
-
-                x += TaskbarHelper.DisplayBounds.Width;
-                y -= this.Height;
-            }
-            else if (TaskbarHelper.Position == TaskbarPosition.Top)
-            {
-                x = Screen.PrimaryScreen.Bounds.Right;
-                y = Screen.PrimaryScreen.Bounds.Top;
-
-                x -= this.Width;
-                y -= this.Height + TaskbarHelper.DisplayBounds.Height;
-            }
-            else // Bottom (Windows default)
-			{
-				x = Screen.PrimaryScreen.Bounds.Right;
-				y = Screen.PrimaryScreen.Bounds.Bottom;
-
-				x -= this.Width;
-				y -= this.Height + TaskbarHelper.DisplayBounds.Height;
-			}
-
-			this.Location = new Point(x, y);
-        }
-
         private void FrmBrowser_Shown(object sender, EventArgs e)
         {
-            this.Hide();
             this.SetupCef();
         }
 
-        public void ShowTrayBrowser(ActionItem item)
+        public override void ShowTrayForm(ActionItem item)
         {
-            this.ActionItem = item;
-            this.Text = item.Name;
-
-            if (item.StayOpen)
-            {
-                this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            }
-            else
-            {
-                this.FormBorderStyle = FormBorderStyle.None;
-            }
-            
             this.Browser.Load(item.PathOrUrl);
-            this.SetLocation();
-            this.Show();
-            this.Activate();
+            base.ShowTrayForm(item);
         }
 
         private void FrmBrowser_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.Hide();
             this.Browser.Load("about:blank");
-        }
-
-        private void FrmBrowser_Deactivate(object sender, EventArgs e)
-        {
-            if (this.ActionItem != null && !this.ActionItem.StayOpen)
-            {
-                this.Close();
-            }
-        }
-
-        public void ReallyClose()
-        {
-            this.FormClosing -= this.FrmBrowser_FormClosing;
-            this.Close();
         }
     }
 }

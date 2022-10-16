@@ -59,7 +59,7 @@ namespace Traything
 
         public override string ToString()
         {
-            return $"{this.Name} [{this.Type.ToString()}] [{this.Scope.ToString()}]";
+            return $"{this.Name} [{this.Type}] [{this.Scope}]";
         }
     }
 
