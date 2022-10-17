@@ -2,6 +2,8 @@ using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Traything.Data;
 
@@ -22,6 +24,7 @@ namespace Traything.UI
 		{
 			Core.Initialize(Path.Combine(Program.BaseExecutingPath, "libvlc\\win-x64"));
 			this.VlcLib = new LibVLC();
+			this.VlcLib.SetDialogHandlers(VlcDlgError, VlcDlgLogin, VlcDlgQuestion, VlcDlgDisplayProgress, VlcDlgUpdateProgress);
 			this.VlcVideoView = new VideoView();
 			this.VlcVideoView.MediaPlayer = new MediaPlayer(this.VlcLib);
 			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
@@ -120,6 +123,33 @@ namespace Traything.UI
 		private void TrackBarPlayProgress_Scroll(object sender, EventArgs e)
 		{
 			this.VlcVideoView.MediaPlayer.SeekTo(TimeSpan.FromSeconds(this.TrackBarPlayProgress.Value));
+		}
+
+		private Task VlcDlgUpdateProgress(Dialog dialog, float position, string text)
+		{
+			throw new NotImplementedException();
+		}
+
+		private Task VlcDlgDisplayProgress(Dialog dialog, string title, string text, bool indeterminate, float position, string cancelText, CancellationToken token)
+		{
+			throw new NotImplementedException();
+		}
+
+		private Task VlcDlgQuestion(Dialog dialog, string title, string text, DialogQuestionType type, string cancelText, string firstActionText, string secondActionText, CancellationToken token)
+		{
+			// Auto accept stream TLS errors
+			dialog.PostAction(1);
+			return Task.CompletedTask;
+		}
+
+		private Task VlcDlgLogin(Dialog dialog, string title, string text, string defaultUsername, bool askStore, CancellationToken token)
+		{
+			throw new NotImplementedException();
+		}
+
+		private Task VlcDlgError(string title, string text)
+		{
+			throw new NotImplementedException();
 		}
 	}
 
