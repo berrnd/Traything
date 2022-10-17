@@ -52,7 +52,6 @@ namespace Traything
 		{
 			this.Invoke(new Action(() =>
 			{
-				this.ButtonPlayPause.Enabled = true;
 				this.ButtonPlayPause.Text = "Pause";
 				this.ProgressBarBusy.Visible = false;
 				this.LabelPlayTime.Visible = true;
@@ -79,6 +78,7 @@ namespace Traything
 			this.LabelPlayTime.Visible = false;
 			this.LabelPlayTime.Text = "";
 			this.TrackBarPlayProgress.Visible = false;
+			this.ButtonPlayPause.Enabled = false;
 			this.VlcVideoView.MediaPlayer.Play(new Media(this.VlcLib, new Uri(item.PathOrUrl)));
 			this.TimerUpdatePlayProgress.Start();
 			base.ShowTrayForm(item);
@@ -112,6 +112,8 @@ namespace Traything
 				// Some streams report invalid total length values
 				this.TrackBarPlayProgress.Enabled = false;
 			}
+
+			this.ButtonPlayPause.Enabled = this.VlcVideoView.MediaPlayer.CanPause;
 		}
 
 		private void TrackBarPlayProgress_Scroll(object sender, EventArgs e)

@@ -70,6 +70,7 @@
             // 
             // ButtonPlayPause
             // 
+            this.ButtonPlayPause.Enabled = false;
             this.ButtonPlayPause.Location = new System.Drawing.Point(3, 3);
             this.ButtonPlayPause.Name = "ButtonPlayPause";
             this.ButtonPlayPause.Size = new System.Drawing.Size(75, 23);
