@@ -77,7 +77,10 @@ namespace Traything.UI
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.PropertyGridActionItem);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmEditActionItem";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit item";
             this.Load += new System.EventHandler(this.FrmEditActionItem_Load);
