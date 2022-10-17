@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Traything.UI;
 
 namespace Traything
 {

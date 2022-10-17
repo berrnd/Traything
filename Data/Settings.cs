@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Traything
+namespace Traything.Data
 {
 	public class Settings
 	{

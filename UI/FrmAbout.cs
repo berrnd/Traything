@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Traything
+namespace Traything.UI
 {
 	public partial class FrmAbout : Form
 	{

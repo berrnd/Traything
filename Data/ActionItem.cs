@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Traything
+namespace Traything.Data
 {
 	public class ActionItem
 	{

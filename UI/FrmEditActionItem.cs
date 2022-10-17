@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
+using Traything.Data;
 
-namespace Traything
+namespace Traything.UI
 {
 	public partial class FrmEditActionItem : Form
 	{

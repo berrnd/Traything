@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Traything.Data;
 
-namespace Traything
+namespace Traything.UI
 {
 	public partial class BaseTrayForm : Form
 	{

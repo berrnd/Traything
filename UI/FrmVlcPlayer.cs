@@ -3,8 +3,9 @@ using LibVLCSharp.WinForms;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Traything.Data;
 
-namespace Traything
+namespace Traything.UI
 {
 	public partial class FrmVlcPlayer : BaseTrayForm
 	{

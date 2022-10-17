@@ -1,11 +1,12 @@
-﻿using CefSharp;
+using CefSharp;
 using CefSharp.WinForms;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using Traything.Data;
 
-namespace Traything
+namespace Traything.UI
 {
 	public partial class FrmBrowser : BaseTrayForm
 	{

@@ -1,4 +1,4 @@
-﻿namespace Traything
+namespace Traything.UI
 {
     partial class FrmEditActionItem
     {
