@@ -28,7 +28,11 @@ namespace Traything.UI
 				cefSettings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
 				cefSettings.UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
 				cefSettings.LogSeverity = LogSeverity.Disable;
-				cefSettings.CefCommandLineArgs.Add("--enable-media-stream", "");
+				cefSettings.CefCommandLineArgs.Add("--enable-media-stream");
+				cefSettings.CefCommandLineArgs.Add("--unsafely-treat-insecure-origin-as-secure", "file://");
+				cefSettings.CefCommandLineArgs.Add("--allow-running-insecure-content");
+				cefSettings.CefCommandLineArgs.Add("--disable-web-security");
+				cefSettings.CefCommandLineArgs.Add("--disable-gpu");
 				cefSettings.CefCommandLineArgs.Add("--lang", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
 				Cef.Initialize(cefSettings, performDependencyCheck: false, browserProcessHandler: null);
