@@ -154,6 +154,15 @@ namespace Traything.UI
 			{
 				if (item.Type == ActionType.CloseTraything)
 				{
+					if (this.Browser != null)
+					{
+						this.Browser.ReallyClose();
+					}
+					if (this.VlcPlayer != null)
+					{
+						this.VlcPlayer.ReallyClose();
+					}
+
 					this.FormClosing -= this.FrmMain_FormClosing;
 					this.Close();
 				}

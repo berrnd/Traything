@@ -35,6 +35,7 @@ namespace Traything.UI
             this.ProgressBarBusy = new System.Windows.Forms.ProgressBar();
             this.TrackBarPlayProgress = new System.Windows.Forms.TrackBar();
             this.LabelPlayTime = new System.Windows.Forms.Label();
+            this.PanelVlcPlayerContainer = new System.Windows.Forms.Panel();
             this.TimerUpdatePlayProgress = new System.Windows.Forms.Timer(this.components);
             this.TableLayoutPanelMain.SuspendLayout();
             this.FlowLayoutPanelPlayerControls.SuspendLayout();
@@ -45,6 +46,7 @@ namespace Traything.UI
             // 
             this.TableLayoutPanelMain.ColumnCount = 1;
             this.TableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TableLayoutPanelMain.Controls.Add(this.PanelVlcPlayerContainer, 0, 0);
             this.TableLayoutPanelMain.Controls.Add(this.FlowLayoutPanelPlayerControls, 0, 1);
             this.TableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
@@ -110,6 +112,14 @@ namespace Traything.UI
             this.LabelPlayTime.Text = "LabelPlayTime";
             this.LabelPlayTime.Visible = false;
             // 
+            // PanelVlcPlayerContainer
+            // 
+            this.PanelVlcPlayerContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelVlcPlayerContainer.Location = new System.Drawing.Point(3, 3);
+            this.PanelVlcPlayerContainer.Name = "PanelVlcPlayerContainer";
+            this.PanelVlcPlayerContainer.Size = new System.Drawing.Size(778, 419);
+            this.PanelVlcPlayerContainer.TabIndex = 1;
+            // 
             // TimerUpdatePlayProgress
             // 
             this.TimerUpdatePlayProgress.Interval = 1000;
@@ -142,5 +152,6 @@ namespace Traything.UI
         private System.Windows.Forms.Label LabelPlayTime;
         private System.Windows.Forms.Timer TimerUpdatePlayProgress;
         private System.Windows.Forms.TrackBar TrackBarPlayProgress;
+        private System.Windows.Forms.Panel PanelVlcPlayerContainer;
     }
 }

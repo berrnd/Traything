@@ -31,11 +31,11 @@ namespace Traything.UI
 			this.VlcVideoView.MediaPlayer.Playing += MediaPlayer_Playing;
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
-			this.TableLayoutPanelMain.Controls.Add(this.VlcVideoView, 0, 0);
+			this.PanelVlcPlayerContainer.Controls.Add(this.VlcVideoView);
 
 			this.VlcPlayerOverlayPanel = new TransparentPanel();
 			this.VlcPlayerOverlayPanel.Dock = DockStyle.Fill;
-			this.Controls.Add(this.VlcPlayerOverlayPanel);
+			this.PanelVlcPlayerContainer.Controls.Add(this.VlcPlayerOverlayPanel);
 			this.VlcPlayerOverlayPanel.BringToFront();
 			this.VlcPlayerOverlayPanel.DoubleClick += VlcPlayerOverlayPanel_DoubleClick;
 		}
