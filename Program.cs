@@ -11,6 +11,7 @@ namespace Traything
 	{
 		internal static readonly string RunningVersion = Regex.Replace(Assembly.GetExecutingAssembly().GetName().Version.ToString(), @"^(.+?)(\.0+)$", "$1");
 		internal static readonly string BaseExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location.TrimEnd('\\'));
+		internal static readonly string ExeName = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
 
 		[STAThread]
 		static void Main()

@@ -16,12 +16,14 @@ namespace Traything.UI
 			InitializeComponent();
 
 			this.ConfigFileWatcher = new FileSystemWatcher();
+			this.ExeWatcher = new FileSystemWatcher();
 		}
 
 		private Settings Settings;
 		private FrmBrowser Browser;
 		private FrmVlcPlayer VlcPlayer;
 		private FileSystemWatcher ConfigFileWatcher;
+		private FileSystemWatcher ExeWatcher;
 
 		private void FrmMain_Shown(object sender, EventArgs e)
 		{
@@ -35,11 +37,26 @@ namespace Traything.UI
 				this.ConfigFileWatcher.Changed += ConfigFileWatcher_Changed;
 				this.ConfigFileWatcher.EnableRaisingEvents = true;
 			}
+
+			this.ExeWatcher.Path = Program.BaseExecutingPath;
+			this.ExeWatcher.Filter = Path.Combine(Program.ExeName);
+			this.ExeWatcher.Changed += ExeWatcher_Changed;
+			this.ExeWatcher.EnableRaisingEvents = true;
 		}
 
 		private void ConfigFileWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() => { this.Reload(); })));
+			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() => {
+				this.Reload();
+			})));
+		}
+
+		private void ExeWatcher_Changed(object sender, FileSystemEventArgs e)
+		{
+			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() => {
+				Application.Restart();
+				Environment.Exit(0);
+			})));
 		}
 
 		private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
