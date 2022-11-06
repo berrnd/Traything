@@ -33,6 +33,7 @@ namespace Traything.UI
 			this.VlcVideoView.MediaPlayer.Playing += MediaPlayer_Playing;
 			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
 			this.VlcVideoView.MediaPlayer.EndReached += MediaPlayer_EndReached;
+			this.VlcVideoView.KeyPress += VlcVideoView_KeyPress;
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcVideoView);
@@ -90,6 +91,14 @@ namespace Traything.UI
 				{
 					this.ButtonPlaylistNext.PerformClick();
 				}));
+			}
+		}
+
+		private void VlcVideoView_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == 'f' || e.KeyChar == 'F')
+			{
+				this.ToggleFullscreen();
 			}
 		}
 
@@ -258,6 +267,31 @@ namespace Traything.UI
 				this.PlayMedia(desiredItem);
 				this.VlcVideoView.MediaPlayer.Fullscreen = true;
 			}
+		}
+
+		private bool Fullscreen_On = false;
+		private FormBorderStyle Fullscreen_SavedBorderStyle;
+		private Rectangle Fullscreen_SavedBounds;
+		private void ToggleFullscreen()
+		{
+			if (this.Fullscreen_On)
+			{
+				// Exit fullscreen
+				this.FormBorderStyle = this.Fullscreen_SavedBorderStyle;
+				this.Bounds = this.Fullscreen_SavedBounds;
+				this.TableLayoutPanelMain.RowStyles[1].Height = 36;
+			}
+			else
+			{
+				// Start fullscreen
+				this.Fullscreen_SavedBorderStyle = this.FormBorderStyle;
+				this.Fullscreen_SavedBounds = this.Bounds;
+				this.FormBorderStyle = FormBorderStyle.None;
+				this.TableLayoutPanelMain.RowStyles[1].Height = 0;
+				this.Bounds = Screen.GetBounds(this.Bounds);
+			}
+
+			this.Fullscreen_On = !this.Fullscreen_On;
 		}
 	}
 

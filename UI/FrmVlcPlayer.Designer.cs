@@ -52,6 +52,7 @@ namespace Traything.UI
             this.TableLayoutPanelMain.Controls.Add(this.FlowLayoutPanelPlayerControls, 0, 1);
             this.TableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.TableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(0);
             this.TableLayoutPanelMain.Name = "TableLayoutPanelMain";
             this.TableLayoutPanelMain.RowCount = 2;
             this.TableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -63,9 +64,10 @@ namespace Traything.UI
             // PanelVlcPlayerContainer
             // 
             this.PanelVlcPlayerContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelVlcPlayerContainer.Location = new System.Drawing.Point(3, 3);
+            this.PanelVlcPlayerContainer.Location = new System.Drawing.Point(0, 0);
+            this.PanelVlcPlayerContainer.Margin = new System.Windows.Forms.Padding(0);
             this.PanelVlcPlayerContainer.Name = "PanelVlcPlayerContainer";
-            this.PanelVlcPlayerContainer.Size = new System.Drawing.Size(778, 419);
+            this.PanelVlcPlayerContainer.Size = new System.Drawing.Size(784, 425);
             this.PanelVlcPlayerContainer.TabIndex = 1;
             // 
             // FlowLayoutPanelPlayerControls
@@ -109,7 +111,7 @@ namespace Traything.UI
             this.ContextMenuStripPlaylist.Name = "ContextMenuStripPlaylist";
             this.ContextMenuStripPlaylist.ShowImageMargin = false;
             this.ContextMenuStripPlaylist.ShowItemToolTips = false;
-            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(156, 26);
+            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(36, 4);
             this.ContextMenuStripPlaylist.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ContextMenuStripPlaylist_ItemClicked);
             // 
             // ProgressBarBusy
