@@ -108,9 +108,15 @@ namespace Traything.UI
 		private void LoadMediaAndPlay(string pathOrUrl)
 		{
 			this.VlcMedia = new Media(this.VlcLib, new Uri(pathOrUrl));
-			this.VlcMedia.Parse(MediaParseOptions.ParseNetwork).Wait();
 
-			if (this.VlcMedia.SubItems.Count == 0)
+			// Only parse media if it's (most likely) a playlist
+			bool isPlayList = pathOrUrl.ToLower().Contains(".m3u") || pathOrUrl.ToLower().Contains(".m3u8");
+			if (isPlayList)
+			{
+				this.VlcMedia.Parse(MediaParseOptions.ParseNetwork).Wait();
+			}
+
+			if (this.VlcMedia.SubItems.Count == 0 || !isPlayList)
 			{
 				// Single item / no playlist
 				this.ButtonPlaylistNext.Visible = false;
@@ -226,7 +232,12 @@ namespace Traything.UI
 
 		private Task VlcDlgError(string title, string text)
 		{
-			throw new NotImplementedException();
+			if (!this.ActionItem.IgnoreErrors)
+			{
+				MessageBox.Show(text, $"VLC error: {title}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+			return Task.CompletedTask;
 		}
 
 		private void ButtonPlaylistNext_Click(object sender, EventArgs e)
@@ -245,6 +256,7 @@ namespace Traything.UI
 			if (desiredItem != null)
 			{
 				this.PlayMedia(desiredItem);
+				this.VlcVideoView.MediaPlayer.Fullscreen = true;
 			}
 		}
 	}
