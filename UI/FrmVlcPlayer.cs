@@ -1,7 +1,9 @@
 using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
 using System;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +20,7 @@ namespace Traything.UI
 
 		private LibVLC VlcLib;
 		private VideoView VlcVideoView;
+		private Media VlcMedia;
 		private TransparentPanel VlcPlayerOverlayPanel;
 
 		private void SetupVlc()
@@ -27,8 +30,9 @@ namespace Traything.UI
 			this.VlcLib.SetDialogHandlers(VlcDlgError, VlcDlgLogin, VlcDlgQuestion, VlcDlgDisplayProgress, VlcDlgUpdateProgress);
 			this.VlcVideoView = new VideoView();
 			this.VlcVideoView.MediaPlayer = new MediaPlayer(this.VlcLib);
-			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
 			this.VlcVideoView.MediaPlayer.Playing += MediaPlayer_Playing;
+			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
+			this.VlcVideoView.MediaPlayer.EndReached += MediaPlayer_EndReached;
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcVideoView);
@@ -54,7 +58,7 @@ namespace Traything.UI
 
 		private void MediaPlayer_Playing(object sender, EventArgs e)
 		{
-			this.Invoke(new Action(() =>
+			this.BeginInvoke(new Action(() =>
 			{
 				this.ButtonPlayPause.Text = "Pause";
 				this.ProgressBarBusy.Visible = false;
@@ -65,10 +69,28 @@ namespace Traything.UI
 
 		private void MediaPlayer_Paused(object sender, EventArgs e)
 		{
-			this.Invoke(new Action(() =>
+			this.BeginInvoke(new Action(() =>
 			{
 				this.ButtonPlayPause.Text = "Resume";
 			}));
+		}
+
+		private void MediaPlayer_EndReached(object sender, EventArgs e)
+		{
+			this.TimerUpdatePlayProgress.Stop();
+
+			this.BeginInvoke(new Action(() =>
+			{
+				this.ButtonPlayPause.Text = "Play";
+			}));
+
+			if (this.VlcMedia.SubItems.Count > 0) // Play next item when it's a playlist
+			{
+				this.BeginInvoke(new Action(() =>
+				{
+					this.ButtonPlaylistNext.PerformClick();
+				}));
+			}
 		}
 
 		private void FrmVlcPlayer_Shown(object sender, EventArgs e)
@@ -78,14 +100,69 @@ namespace Traything.UI
 
 		public override void ShowTrayForm(ActionItem item)
 		{
-			this.ProgressBarBusy.Visible = true;
-			this.LabelPlayTime.Visible = false;
-			this.LabelPlayTime.Text = "";
-			this.TrackBarPlayProgress.Visible = false;
-			this.ButtonPlayPause.Enabled = false;
-			this.VlcVideoView.MediaPlayer.Play(new Media(this.VlcLib, new Uri(item.PathOrUrl)));
-			this.TimerUpdatePlayProgress.Start();
+
+			this.LoadMediaAndPlay(item.PathOrUrl);
 			base.ShowTrayForm(item);
+		}
+
+		private void LoadMediaAndPlay(string pathOrUrl)
+		{
+			this.VlcMedia = new Media(this.VlcLib, new Uri(pathOrUrl));
+			this.VlcMedia.Parse(MediaParseOptions.ParseNetwork).Wait();
+
+			if (this.VlcMedia.SubItems.Count == 0)
+			{
+				// Single item / no playlist
+				this.ButtonPlaylistNext.Visible = false;
+				this.PlayMedia(this.VlcMedia);
+			}
+			else
+			{
+				// Multiple items / playlist
+				this.ButtonPlaylistNext.Visible = true;
+
+				this.ContextMenuStripPlaylist.Items.Clear();
+				foreach (Media item in this.VlcMedia.SubItems)
+				{
+					this.ContextMenuStripPlaylist.Items.Add(new ToolStripMenuItem
+					{
+						Text = item.Meta(MetadataType.Title),
+						Tag = item.Mrl
+					});
+				}
+
+				this.PlayMedia(this.VlcMedia.SubItems.First());
+			}
+		}
+
+		private void PlayMedia(Media media)
+		{
+			this.BeginInvoke(new Action(() =>
+			{
+				this.ProgressBarBusy.Visible = true;
+				this.LabelPlayTime.Visible = false;
+				this.LabelPlayTime.Text = "";
+				this.TrackBarPlayProgress.Visible = false;
+				this.ButtonPlayPause.Enabled = false;
+				this.TimerUpdatePlayProgress.Start();
+			}));
+
+			this.VlcVideoView.MediaPlayer.Play(media);
+
+			if (this.VlcMedia.SubItems.Count > 0)
+			{
+				foreach (ToolStripMenuItem item in this.ContextMenuStripPlaylist.Items)
+				{
+					if ((string)item.Tag == media.Mrl)
+					{
+						item.Font = new Font(item.Font, FontStyle.Bold);
+					}
+					else
+					{
+						item.Font = new Font(item.Font, FontStyle.Regular);
+					}
+				}
+			}
 		}
 
 		private void FrmVlcPlayer_FormClosing(object sender, FormClosingEventArgs e)
@@ -150,6 +227,25 @@ namespace Traything.UI
 		private Task VlcDlgError(string title, string text)
 		{
 			throw new NotImplementedException();
+		}
+
+		private void ButtonPlaylistNext_Click(object sender, EventArgs e)
+		{
+			Media nextItem = this.VlcMedia.SubItems.SkipWhile(x => x.Mrl != this.VlcVideoView.MediaPlayer.Media.Mrl).Skip(1).FirstOrDefault();
+			if (nextItem != null)
+			{
+				this.PlayMedia(nextItem);
+			}
+		}
+
+		private void ContextMenuStripPlaylist_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			this.ContextMenuStripPlaylist.Close();
+			Media desiredItem = this.VlcMedia.SubItems.Where(x => x.Mrl == (string)e.ClickedItem.Tag).FirstOrDefault();
+			if (desiredItem != null)
+			{
+				this.PlayMedia(desiredItem);
+			}
 		}
 	}
 

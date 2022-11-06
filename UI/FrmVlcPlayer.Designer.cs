@@ -30,12 +30,14 @@ namespace Traything.UI
         {
             this.components = new System.ComponentModel.Container();
             this.TableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
+            this.PanelVlcPlayerContainer = new System.Windows.Forms.Panel();
             this.FlowLayoutPanelPlayerControls = new System.Windows.Forms.FlowLayoutPanel();
             this.ButtonPlayPause = new System.Windows.Forms.Button();
+            this.ButtonPlaylistNext = new System.Windows.Forms.Button();
+            this.ContextMenuStripPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ProgressBarBusy = new System.Windows.Forms.ProgressBar();
             this.TrackBarPlayProgress = new System.Windows.Forms.TrackBar();
             this.LabelPlayTime = new System.Windows.Forms.Label();
-            this.PanelVlcPlayerContainer = new System.Windows.Forms.Panel();
             this.TimerUpdatePlayProgress = new System.Windows.Forms.Timer(this.components);
             this.TableLayoutPanelMain.SuspendLayout();
             this.FlowLayoutPanelPlayerControls.SuspendLayout();
@@ -58,9 +60,18 @@ namespace Traything.UI
             this.TableLayoutPanelMain.Size = new System.Drawing.Size(784, 461);
             this.TableLayoutPanelMain.TabIndex = 0;
             // 
+            // PanelVlcPlayerContainer
+            // 
+            this.PanelVlcPlayerContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelVlcPlayerContainer.Location = new System.Drawing.Point(3, 3);
+            this.PanelVlcPlayerContainer.Name = "PanelVlcPlayerContainer";
+            this.PanelVlcPlayerContainer.Size = new System.Drawing.Size(778, 419);
+            this.PanelVlcPlayerContainer.TabIndex = 1;
+            // 
             // FlowLayoutPanelPlayerControls
             // 
             this.FlowLayoutPanelPlayerControls.Controls.Add(this.ButtonPlayPause);
+            this.FlowLayoutPanelPlayerControls.Controls.Add(this.ButtonPlaylistNext);
             this.FlowLayoutPanelPlayerControls.Controls.Add(this.ProgressBarBusy);
             this.FlowLayoutPanelPlayerControls.Controls.Add(this.TrackBarPlayProgress);
             this.FlowLayoutPanelPlayerControls.Controls.Add(this.LabelPlayTime);
@@ -81,9 +92,29 @@ namespace Traything.UI
             this.ButtonPlayPause.UseVisualStyleBackColor = true;
             this.ButtonPlayPause.Click += new System.EventHandler(this.ButtonPlayPause_Click);
             // 
+            // ButtonPlaylistNext
+            // 
+            this.ButtonPlaylistNext.ContextMenuStrip = this.ContextMenuStripPlaylist;
+            this.ButtonPlaylistNext.Location = new System.Drawing.Point(84, 3);
+            this.ButtonPlaylistNext.Name = "ButtonPlaylistNext";
+            this.ButtonPlaylistNext.Size = new System.Drawing.Size(75, 23);
+            this.ButtonPlaylistNext.TabIndex = 4;
+            this.ButtonPlaylistNext.Text = "Next";
+            this.ButtonPlaylistNext.UseVisualStyleBackColor = true;
+            this.ButtonPlaylistNext.Visible = false;
+            this.ButtonPlaylistNext.Click += new System.EventHandler(this.ButtonPlaylistNext_Click);
+            // 
+            // ContextMenuStripPlaylist
+            // 
+            this.ContextMenuStripPlaylist.Name = "ContextMenuStripPlaylist";
+            this.ContextMenuStripPlaylist.ShowImageMargin = false;
+            this.ContextMenuStripPlaylist.ShowItemToolTips = false;
+            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(156, 26);
+            this.ContextMenuStripPlaylist.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ContextMenuStripPlaylist_ItemClicked);
+            // 
             // ProgressBarBusy
             // 
-            this.ProgressBarBusy.Location = new System.Drawing.Point(84, 3);
+            this.ProgressBarBusy.Location = new System.Drawing.Point(165, 3);
             this.ProgressBarBusy.Name = "ProgressBarBusy";
             this.ProgressBarBusy.Size = new System.Drawing.Size(100, 23);
             this.ProgressBarBusy.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
@@ -92,7 +123,7 @@ namespace Traything.UI
             // TrackBarPlayProgress
             // 
             this.TrackBarPlayProgress.AutoSize = false;
-            this.TrackBarPlayProgress.Location = new System.Drawing.Point(190, 3);
+            this.TrackBarPlayProgress.Location = new System.Drawing.Point(271, 3);
             this.TrackBarPlayProgress.Maximum = 100;
             this.TrackBarPlayProgress.Name = "TrackBarPlayProgress";
             this.TrackBarPlayProgress.Size = new System.Drawing.Size(180, 23);
@@ -104,21 +135,13 @@ namespace Traything.UI
             // 
             this.LabelPlayTime.AutoSize = true;
             this.LabelPlayTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelPlayTime.Location = new System.Drawing.Point(376, 0);
+            this.LabelPlayTime.Location = new System.Drawing.Point(457, 0);
             this.LabelPlayTime.Name = "LabelPlayTime";
             this.LabelPlayTime.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.LabelPlayTime.Size = new System.Drawing.Size(99, 21);
             this.LabelPlayTime.TabIndex = 2;
             this.LabelPlayTime.Text = "LabelPlayTime";
             this.LabelPlayTime.Visible = false;
-            // 
-            // PanelVlcPlayerContainer
-            // 
-            this.PanelVlcPlayerContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelVlcPlayerContainer.Location = new System.Drawing.Point(3, 3);
-            this.PanelVlcPlayerContainer.Name = "PanelVlcPlayerContainer";
-            this.PanelVlcPlayerContainer.Size = new System.Drawing.Size(778, 419);
-            this.PanelVlcPlayerContainer.TabIndex = 1;
             // 
             // TimerUpdatePlayProgress
             // 
@@ -153,5 +176,7 @@ namespace Traything.UI
         private System.Windows.Forms.Timer TimerUpdatePlayProgress;
         private System.Windows.Forms.TrackBar TrackBarPlayProgress;
         private System.Windows.Forms.Panel PanelVlcPlayerContainer;
+        private System.Windows.Forms.Button ButtonPlaylistNext;
+        private System.Windows.Forms.ContextMenuStrip ContextMenuStripPlaylist;
     }
 }
