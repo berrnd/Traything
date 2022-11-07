@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,8 +21,8 @@ namespace Traything.UI
 		}
 
 		private Settings Settings;
-		private FrmBrowser Browser;
-		private FrmVlcPlayer VlcPlayer;
+		private readonly List<FrmBrowser> Browsers = new List<FrmBrowser>();
+		private readonly List<FrmVlcPlayer> Players = new List<FrmVlcPlayer>();
 		private FileSystemWatcher ConfigFileWatcher;
 		private FileSystemWatcher ExeWatcher;
 
@@ -46,14 +47,16 @@ namespace Traything.UI
 
 		private void ConfigFileWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() => {
+			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() =>
+			{
 				this.Reload();
 			})));
 		}
 
 		private void ExeWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() => {
+			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() =>
+			{
 				Application.Restart();
 				Environment.Exit(0);
 			})));
@@ -126,39 +129,43 @@ namespace Traything.UI
 
 			if (this.Settings.Actions.Any(x => x.Type == ActionType.ShowTrayBrowser))
 			{
-				// Preheat CefSharp
-				if (this.Browser == null)
+				// Preheat CefSharp (one instance)
+				if (this.Browsers.Count == 0)
 				{
-					this.Browser = new FrmBrowser();
-					this.Browser.Show();
+					this.Browsers.Add(new FrmBrowser());
 				}
 			}
 			else
 			{
 				// Shutdown CefSharp
-				if (this.Browser != null)
+				if (this.Browsers.Count > 0)
 				{
-					this.Browser.ReallyClose();
-					this.Browser = null;
+					foreach (FrmBrowser browser in this.Browsers.ToList())
+					{
+						browser.ReallyClose();
+						this.Browsers.Remove(browser);
+					}
 				}
 			}
 
 			if (this.Settings.Actions.Any(x => x.Type == ActionType.ShowTrayMediaPlayer))
 			{
-				// Preheat VLC
-				if (this.VlcPlayer == null)
+				// Preheat VLC (one instance)
+				if (this.Players.Count == 0)
 				{
-					this.VlcPlayer = new FrmVlcPlayer();
-					this.VlcPlayer.Show();
+					this.Players.Add(new FrmVlcPlayer());
 				}
 			}
 			else
 			{
 				// Shutdown VLC
-				if (this.VlcPlayer != null)
+				if (this.Players.Count > 0)
 				{
-					this.VlcPlayer.ReallyClose();
-					this.VlcPlayer = null;
+					foreach (FrmVlcPlayer player in this.Players.ToList())
+					{
+						player.ReallyClose();
+						this.Players.Remove(player);
+					}
 				}
 			}
 		}
@@ -171,13 +178,19 @@ namespace Traything.UI
 			{
 				if (item.Type == ActionType.CloseTraything)
 				{
-					if (this.Browser != null)
+					if (this.Browsers.Count > 0)
 					{
-						this.Browser.ReallyClose();
+						foreach (FrmBrowser browser in this.Browsers)
+						{
+							browser.ReallyClose();
+						}
 					}
-					if (this.VlcPlayer != null)
+					if (this.Players.Count > 0)
 					{
-						this.VlcPlayer.ReallyClose();
+						foreach (FrmVlcPlayer player in this.Players)
+						{
+							player.ReallyClose();
+						}
 					}
 
 					this.FormClosing -= this.FrmMain_FormClosing;
@@ -210,11 +223,11 @@ namespace Traything.UI
 				}
 				else if (item.Type == ActionType.ShowTrayBrowser)
 				{
-					this.Browser.ShowTrayForm(item);
+					this.GetAvailableBrowser().ShowTrayForm(item);
 				}
 				else if (item.Type == ActionType.ShowTrayMediaPlayer)
 				{
-					this.VlcPlayer.ShowTrayForm(item);
+					this.GetAvailableVlcPlayer().ShowTrayForm(item);
 				}
 			}
 			catch (Exception ex)
@@ -302,6 +315,32 @@ namespace Traything.UI
 			{
 				this.ButtonEdit.PerformClick();
 			}
+		}
+
+		private FrmBrowser GetAvailableBrowser()
+		{
+			FrmBrowser availableBrowser = this.Browsers.Find(x => x.Visible == false);
+
+			if (availableBrowser == null)
+			{
+				availableBrowser = new FrmBrowser();
+				this.Browsers.Add(availableBrowser);
+			}
+
+			return availableBrowser;
+		}
+
+		private FrmVlcPlayer GetAvailableVlcPlayer()
+		{
+			FrmVlcPlayer availablePlayer = this.Players.Find(x => x.Visible == false);
+
+			if (availablePlayer == null)
+			{
+				availablePlayer = new FrmVlcPlayer();
+				this.Players.Add(availablePlayer);
+			}
+
+			return availablePlayer;
 		}
 	}
 }

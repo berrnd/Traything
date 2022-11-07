@@ -13,6 +13,7 @@ namespace Traything.UI
 		}
 
 		protected ActionItem ActionItem;
+		protected bool Ready = false;
 
 		private void SetDefaultTrayLocationLocation()
 		{
@@ -70,6 +71,7 @@ namespace Traything.UI
 		private void BaseTrayForm_Shown(object sender, EventArgs e)
 		{
 			this.Hide();
+			this.Ready = true;
 		}
 
 		public virtual void ShowTrayForm(ActionItem item)

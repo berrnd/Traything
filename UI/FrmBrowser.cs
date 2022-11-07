@@ -13,6 +13,7 @@ namespace Traything.UI
 		public FrmBrowser()
 		{
 			InitializeComponent();
+			this.Show();
 		}
 
 		private ChromiumWebBrowser Browser;
@@ -50,6 +51,11 @@ namespace Traything.UI
 
 		public override void ShowTrayForm(ActionItem item)
 		{
+			while (!this.Ready)
+			{
+				Application.DoEvents();
+			}
+
 			this.Browser.Load(item.PathOrUrl);
 			base.ShowTrayForm(item);
 		}

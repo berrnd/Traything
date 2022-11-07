@@ -16,6 +16,7 @@ namespace Traything.UI
 		public FrmVlcPlayer()
 		{
 			InitializeComponent();
+			this.Show();
 		}
 
 		private LibVLC VlcLib;
@@ -103,6 +104,11 @@ namespace Traything.UI
 
 		public override void ShowTrayForm(ActionItem item)
 		{
+			while (!this.Ready)
+			{
+				Application.DoEvents();
+			}
+
 			this.LoadMediaAndPlay(item.PathOrUrl);
 			base.ShowTrayForm(item);
 		}
