@@ -39,9 +39,13 @@ namespace Traything.UI
             this.TrackBarPlayProgress = new System.Windows.Forms.TrackBar();
             this.LabelPlayTime = new System.Windows.Forms.Label();
             this.TimerUpdatePlayProgress = new System.Windows.Forms.Timer(this.components);
+            this.ContextMenuStripVlcPlayerOverlayPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItemToggleFullscreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemToggleMute = new System.Windows.Forms.ToolStripMenuItem();
             this.TableLayoutPanelMain.SuspendLayout();
             this.FlowLayoutPanelPlayerControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarPlayProgress)).BeginInit();
+            this.ContextMenuStripVlcPlayerOverlayPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // TableLayoutPanelMain
@@ -63,6 +67,7 @@ namespace Traything.UI
             // 
             // PanelVlcPlayerContainer
             // 
+            this.PanelVlcPlayerContainer.BackColor = System.Drawing.Color.Black;
             this.PanelVlcPlayerContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelVlcPlayerContainer.Location = new System.Drawing.Point(0, 0);
             this.PanelVlcPlayerContainer.Margin = new System.Windows.Forms.Padding(0);
@@ -150,6 +155,30 @@ namespace Traything.UI
             this.TimerUpdatePlayProgress.Interval = 1000;
             this.TimerUpdatePlayProgress.Tick += new System.EventHandler(this.TimerUpdatePlayProgress_Tick);
             // 
+            // ContextMenuStripVlcPlayerOverlayPanel
+            // 
+            this.ContextMenuStripVlcPlayerOverlayPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemToggleFullscreen,
+            this.ToolStripMenuItemToggleMute});
+            this.ContextMenuStripVlcPlayerOverlayPanel.Name = "ContextMenuStripVlcOverlayPanel";
+            this.ContextMenuStripVlcPlayerOverlayPanel.ShowImageMargin = false;
+            this.ContextMenuStripVlcPlayerOverlayPanel.ShowItemToolTips = false;
+            this.ContextMenuStripVlcPlayerOverlayPanel.Size = new System.Drawing.Size(173, 48);
+            // 
+            // ToolStripMenuItemToggleFullscreen
+            // 
+            this.ToolStripMenuItemToggleFullscreen.Name = "ToolStripMenuItemToggleFullscreen";
+            this.ToolStripMenuItemToggleFullscreen.Size = new System.Drawing.Size(172, 22);
+            this.ToolStripMenuItemToggleFullscreen.Text = "Toggle fullscreen mode";
+            this.ToolStripMenuItemToggleFullscreen.Click += new System.EventHandler(this.ToolStripMenuItemToggleFullscreen_Click);
+            // 
+            // ToolStripMenuItemToggleMute
+            // 
+            this.ToolStripMenuItemToggleMute.Name = "ToolStripMenuItemToggleMute";
+            this.ToolStripMenuItemToggleMute.Size = new System.Drawing.Size(172, 22);
+            this.ToolStripMenuItemToggleMute.Text = "Toggle mute";
+            this.ToolStripMenuItemToggleMute.Click += new System.EventHandler(this.ToolStripMenuItemToggleMute_Click);
+            // 
             // FrmVlcPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -164,6 +193,7 @@ namespace Traything.UI
             this.FlowLayoutPanelPlayerControls.ResumeLayout(false);
             this.FlowLayoutPanelPlayerControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarPlayProgress)).EndInit();
+            this.ContextMenuStripVlcPlayerOverlayPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -180,5 +210,8 @@ namespace Traything.UI
         private System.Windows.Forms.Panel PanelVlcPlayerContainer;
         private System.Windows.Forms.Button ButtonPlaylistNext;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStripPlaylist;
+        private System.Windows.Forms.ContextMenuStrip ContextMenuStripVlcPlayerOverlayPanel;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemToggleFullscreen;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemToggleMute;
     }
 }

@@ -22,24 +22,26 @@ namespace Traything.UI
 		private VideoView VlcVideoView;
 		private Media VlcMedia;
 		private TransparentPanel VlcPlayerOverlayPanel;
+		private DateTime PlaybackStartTime;
 
 		private void SetupVlc()
 		{
 			Core.Initialize(Path.Combine(Program.BaseExecutingPath, "libvlc\\win-x64"));
 			this.VlcLib = new LibVLC();
-			this.VlcLib.SetDialogHandlers(VlcDlgError, VlcDlgLogin, VlcDlgQuestion, VlcDlgDisplayProgress, VlcDlgUpdateProgress);
+			this.VlcLib.SetDialogHandlers(this.VlcDlgError, this.VlcDlgLogin, this.VlcDlgQuestion, this.VlcDlgDisplayProgress, this.VlcDlgUpdateProgress);
+
 			this.VlcVideoView = new VideoView();
 			this.VlcVideoView.MediaPlayer = new MediaPlayer(this.VlcLib);
 			this.VlcVideoView.MediaPlayer.Playing += MediaPlayer_Playing;
 			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
 			this.VlcVideoView.MediaPlayer.EndReached += MediaPlayer_EndReached;
-			this.VlcVideoView.KeyPress += VlcVideoView_KeyPress;
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcVideoView);
 
 			this.VlcPlayerOverlayPanel = new TransparentPanel();
 			this.VlcPlayerOverlayPanel.Dock = DockStyle.Fill;
+			this.VlcPlayerOverlayPanel.ContextMenuStrip = this.ContextMenuStripVlcPlayerOverlayPanel;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcPlayerOverlayPanel);
 			this.VlcPlayerOverlayPanel.BringToFront();
 			this.VlcPlayerOverlayPanel.DoubleClick += VlcPlayerOverlayPanel_DoubleClick;
@@ -94,14 +96,6 @@ namespace Traything.UI
 			}
 		}
 
-		private void VlcVideoView_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (e.KeyChar == 'f' || e.KeyChar == 'F')
-			{
-				this.ToggleFullscreen();
-			}
-		}
-
 		private void FrmVlcPlayer_Shown(object sender, EventArgs e)
 		{
 			this.SetupVlc();
@@ -109,7 +103,6 @@ namespace Traything.UI
 
 		public override void ShowTrayForm(ActionItem item)
 		{
-
 			this.LoadMediaAndPlay(item.PathOrUrl);
 			base.ShowTrayForm(item);
 		}
@@ -162,21 +155,25 @@ namespace Traything.UI
 				this.TimerUpdatePlayProgress.Start();
 			}));
 
+			this.PlaybackStartTime = DateTime.Now;
 			this.VlcVideoView.MediaPlayer.Play(media);
 
 			if (this.VlcMedia.SubItems.Count > 0)
 			{
-				foreach (ToolStripMenuItem item in this.ContextMenuStripPlaylist.Items)
+				this.BeginInvoke(new Action(() =>
 				{
-					if ((string)item.Tag == media.Mrl)
+					foreach (ToolStripMenuItem item in this.ContextMenuStripPlaylist.Items)
 					{
-						item.Font = new Font(item.Font, FontStyle.Bold);
+						if ((string)item.Tag == media.Mrl)
+						{
+							item.Font = new Font(item.Font, FontStyle.Bold);
+						}
+						else
+						{
+							item.Font = new Font(item.Font, FontStyle.Regular);
+						}
 					}
-					else
-					{
-						item.Font = new Font(item.Font, FontStyle.Regular);
-					}
-				}
+				}));
 			}
 		}
 
@@ -193,8 +190,6 @@ namespace Traything.UI
 
 		private void TimerUpdatePlayProgress_Tick(object sender, EventArgs e)
 		{
-			this.LabelPlayTime.Text = $"{TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Time):hh\\:mm\\:ss} / {TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Length):hh\\:mm\\:ss}";
-
 			int currentSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Time / 1000);
 			int totalSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Length / 1000);
 			if (currentSeconds < totalSeconds)
@@ -202,14 +197,18 @@ namespace Traything.UI
 				this.TrackBarPlayProgress.Maximum = totalSeconds;
 				this.TrackBarPlayProgress.Value = currentSeconds;
 				this.TrackBarPlayProgress.Enabled = true;
+				this.ButtonPlayPause.Enabled = this.VlcVideoView.MediaPlayer.CanPause;
+
+				this.LabelPlayTime.Text = $"{TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Time):hh\\:mm\\:ss} / {TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Length):hh\\:mm\\:ss}";
 			}
 			else
 			{
-				// Some streams report invalid total length values
+				// Some (live) streams report invalid total length values
 				this.TrackBarPlayProgress.Enabled = false;
-			}
+				this.ButtonPlayPause.Enabled = false;
 
-			this.ButtonPlayPause.Enabled = this.VlcVideoView.MediaPlayer.CanPause;
+				this.LabelPlayTime.Text = $"Live / {TimeSpan.FromTicks((DateTime.Now.Subtract(this.PlaybackStartTime)).Ticks):hh\\:mm\\:ss}";
+			}
 		}
 
 		private void TrackBarPlayProgress_Scroll(object sender, EventArgs e)
@@ -260,12 +259,10 @@ namespace Traything.UI
 
 		private void ContextMenuStripPlaylist_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
-			this.ContextMenuStripPlaylist.Close();
 			Media desiredItem = this.VlcMedia.SubItems.Where(x => x.Mrl == (string)e.ClickedItem.Tag).FirstOrDefault();
 			if (desiredItem != null)
 			{
 				this.PlayMedia(desiredItem);
-				this.VlcVideoView.MediaPlayer.Fullscreen = true;
 			}
 		}
 
@@ -292,6 +289,16 @@ namespace Traything.UI
 			}
 
 			this.Fullscreen_On = !this.Fullscreen_On;
+		}
+
+		private void ToolStripMenuItemToggleFullscreen_Click(object sender, EventArgs e)
+		{
+			this.ToggleFullscreen();
+		}
+
+		private void ToolStripMenuItemToggleMute_Click(object sender, EventArgs e)
+		{
+			this.VlcVideoView.MediaPlayer.Mute = !this.VlcVideoView.MediaPlayer.Mute;
 		}
 	}
 
