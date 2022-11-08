@@ -127,7 +127,7 @@ namespace Traything.UI
 				}
 			}
 
-			if (this.Settings.Actions.Any(x => x.Type == ActionType.ShowTrayBrowser))
+			if (this.Settings.Actions.Any(x => x.Type == ActionType.ShowTrayBrowser && (x.Scope == ActionScope.Global || (x.Scope == ActionScope.ThisComputer && x.Hostnames.Any(y => y.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase))))))
 			{
 				// Preheat CefSharp (one instance)
 				if (this.Browsers.Count == 0)
@@ -148,7 +148,7 @@ namespace Traything.UI
 				}
 			}
 
-			if (this.Settings.Actions.Any(x => x.Type == ActionType.ShowTrayMediaPlayer))
+			if (this.Settings.Actions.Any(x => x.Type == ActionType.ShowTrayMediaPlayer && (x.Scope == ActionScope.Global || (x.Scope == ActionScope.ThisComputer && x.Hostnames.Any(y => y.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase))))))
 			{
 				// Preheat VLC (one instance)
 				if (this.Players.Count == 0)
