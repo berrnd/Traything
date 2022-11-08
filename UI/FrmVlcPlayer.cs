@@ -24,6 +24,7 @@ namespace Traything.UI
 		private Media VlcMedia;
 		private TransparentPanel VlcPlayerOverlayPanel;
 		private DateTime PlaybackStartTime;
+		private bool FirstPlaybackStart = true;
 
 		private void SetupVlc()
 		{
@@ -62,6 +63,12 @@ namespace Traything.UI
 
 		private void MediaPlayer_Playing(object sender, EventArgs e)
 		{
+			if (this.FirstPlaybackStart)
+			{
+				this.FirstPlaybackStart = false;
+				this.VlcVideoView.MediaPlayer.Mute = this.ActionItem.StartMuted;
+			}
+
 			this.BeginInvoke(new Action(() =>
 			{
 				this.ButtonPlayPause.Text = "Pause";
@@ -109,8 +116,19 @@ namespace Traything.UI
 				Application.DoEvents();
 			}
 
+			this.FirstPlaybackStart = true;
 			this.LoadMediaAndPlay(item.PathOrUrl);
 			base.ShowTrayForm(item);
+
+			if (item.StartFullscreen)
+			{
+				this.ToggleFullscreen();
+			}
+
+			if (item.StartMinimized)
+			{
+				this.WindowState = FormWindowState.Minimized;
+			}
 		}
 
 		private void LoadMediaAndPlay(string pathOrUrl)
@@ -185,6 +203,7 @@ namespace Traything.UI
 
 		private void FrmVlcPlayer_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			this.Fullscreen_On = false;
 			this.VlcVideoView.MediaPlayer.Stop();
 			this.TimerUpdatePlayProgress.Stop();
 		}
@@ -289,6 +308,7 @@ namespace Traything.UI
 				// Start fullscreen
 				this.Fullscreen_SavedBorderStyle = this.FormBorderStyle;
 				this.Fullscreen_SavedBounds = this.Bounds;
+				this.WindowState = FormWindowState.Normal;
 				this.FormBorderStyle = FormBorderStyle.None;
 				this.TableLayoutPanelMain.RowStyles[1].Height = 0;
 				this.Bounds = Screen.GetBounds(this.Bounds);
@@ -305,6 +325,11 @@ namespace Traything.UI
 		private void ToolStripMenuItemToggleMute_Click(object sender, EventArgs e)
 		{
 			this.VlcVideoView.MediaPlayer.Mute = !this.VlcVideoView.MediaPlayer.Mute;
+		}
+
+		private void ToolStripMenuItemClose_Click(object sender, EventArgs e)
+		{
+			this.Close();
 		}
 	}
 

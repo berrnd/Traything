@@ -42,6 +42,8 @@ namespace Traything.UI
             this.ContextMenuStripVlcPlayerOverlayPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemToggleFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemToggleMute = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripSeparator1VlcPlayerOverlayPanel = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
             this.TableLayoutPanelMain.SuspendLayout();
             this.FlowLayoutPanelPlayerControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarPlayProgress)).BeginInit();
@@ -159,11 +161,13 @@ namespace Traything.UI
             // 
             this.ContextMenuStripVlcPlayerOverlayPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemToggleFullscreen,
-            this.ToolStripMenuItemToggleMute});
+            this.ToolStripMenuItemToggleMute,
+            this.ToolStripSeparator1VlcPlayerOverlayPanel,
+            this.ToolStripMenuItemClose});
             this.ContextMenuStripVlcPlayerOverlayPanel.Name = "ContextMenuStripVlcOverlayPanel";
             this.ContextMenuStripVlcPlayerOverlayPanel.ShowImageMargin = false;
             this.ContextMenuStripVlcPlayerOverlayPanel.ShowItemToolTips = false;
-            this.ContextMenuStripVlcPlayerOverlayPanel.Size = new System.Drawing.Size(173, 48);
+            this.ContextMenuStripVlcPlayerOverlayPanel.Size = new System.Drawing.Size(173, 98);
             // 
             // ToolStripMenuItemToggleFullscreen
             // 
@@ -178,6 +182,18 @@ namespace Traything.UI
             this.ToolStripMenuItemToggleMute.Size = new System.Drawing.Size(172, 22);
             this.ToolStripMenuItemToggleMute.Text = "Toggle mute";
             this.ToolStripMenuItemToggleMute.Click += new System.EventHandler(this.ToolStripMenuItemToggleMute_Click);
+            // 
+            // ToolStripSeparator1VlcPlayerOverlayPanel
+            // 
+            this.ToolStripSeparator1VlcPlayerOverlayPanel.Name = "ToolStripSeparator1VlcPlayerOverlayPanel";
+            this.ToolStripSeparator1VlcPlayerOverlayPanel.Size = new System.Drawing.Size(169, 6);
+            // 
+            // ToolStripMenuItemClose
+            // 
+            this.ToolStripMenuItemClose.Name = "ToolStripMenuItemClose";
+            this.ToolStripMenuItemClose.Size = new System.Drawing.Size(172, 22);
+            this.ToolStripMenuItemClose.Text = "Close";
+            this.ToolStripMenuItemClose.Click += new System.EventHandler(this.ToolStripMenuItemClose_Click);
             // 
             // FrmVlcPlayer
             // 
@@ -213,5 +229,7 @@ namespace Traything.UI
         private System.Windows.Forms.ContextMenuStrip ContextMenuStripVlcPlayerOverlayPanel;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemToggleFullscreen;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemToggleMute;
+        private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1VlcPlayerOverlayPanel;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemClose;
     }
 }
