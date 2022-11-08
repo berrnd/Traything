@@ -119,6 +119,7 @@ namespace Traything.UI
 			this.FirstPlaybackStart = true;
 			this.LoadMediaAndPlay(item.PathOrUrl);
 			base.ShowTrayForm(item);
+			this.UpdateTitle();
 
 			if (item.StartFullscreen)
 			{
@@ -181,6 +182,7 @@ namespace Traything.UI
 
 			this.PlaybackStartTime = DateTime.Now;
 			this.VlcVideoView.MediaPlayer.Play(media);
+			this.UpdateTitle();
 
 			if (this.VlcMedia.SubItems.Count > 0)
 			{
@@ -198,6 +200,24 @@ namespace Traything.UI
 						}
 					}
 				}));
+			}
+		}
+
+		private void UpdateTitle()
+		{
+			if (this.ActionItem == null)
+			{
+				return;
+			}
+
+			string mediaTitle = this.VlcVideoView.MediaPlayer.Media.Meta(MetadataType.Title);
+			if (this.ActionItem.ShowMediaTitle && !string.IsNullOrEmpty(mediaTitle))
+			{
+				this.Text = $"{this.ActionItem.Name} [{mediaTitle}]";
+			}
+			else
+			{
+				this.Text = this.ActionItem.Name;
 			}
 		}
 

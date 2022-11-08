@@ -69,6 +69,10 @@ namespace Traything.Data
 		[Description("When Type = ShowTrayMediaPlayer, whether to start minimized (e.g. for audio only playback)")]
 		public bool StartMinimized { get; set; } = false;
 
+		[Category("TrayMediaPlayer"), Display(Order = 430)]
+		[Description("When Type = ShowTrayMediaPlayer, whether to show the media title (if any) in the window title")]
+		public bool ShowMediaTitle { get; set; } = false;
+
 		public override string ToString()
 		{
 			return $"{this.Name} [{this.Type}] [{this.Scope}]";
