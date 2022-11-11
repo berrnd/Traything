@@ -172,8 +172,11 @@ namespace Traything.UI
 
 		private void TrayMenuItem_Click(object sender, EventArgs e)
 		{
-			ActionItem item = (ActionItem)((ToolStripMenuItem)sender).Tag;
+			this.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
+		}
 
+		private void ExecuteAction(ActionItem item)
+		{
 			try
 			{
 				if (item.Type == ActionType.CloseTraything)
@@ -307,6 +310,7 @@ namespace Traything.UI
 			this.ButtonRemove.Enabled = true;
 			this.ButtonMoveUp.Enabled = this.ListBoxActions.SelectedIndex != 0;
 			this.ButtonMoveDown.Enabled = this.ListBoxActions.SelectedIndex != this.ListBoxActions.Items.Count - 1;
+			this.ButtonExecute.Enabled = this.ListBoxActions.SelectedItems.Count == 1;
 		}
 
 		private void ListBoxActions_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -341,6 +345,11 @@ namespace Traything.UI
 			}
 
 			return availablePlayer;
+		}
+
+		private void ButtonExecute_Click(object sender, EventArgs e)
+		{
+			this.ExecuteAction((ActionItem)this.ListBoxActions.SelectedItem);
 		}
 	}
 }

@@ -39,6 +39,7 @@ namespace Traything.UI
             this.ButtonMoveUp = new System.Windows.Forms.Button();
             this.ListBoxActions = new System.Windows.Forms.ListBox();
             this.LinkLabelAbout = new System.Windows.Forms.LinkLabel();
+            this.ButtonExecute = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // NotifyIconTray
@@ -91,7 +92,7 @@ namespace Traything.UI
             // ButtonMoveDown
             // 
             this.ButtonMoveDown.Enabled = false;
-            this.ButtonMoveDown.Location = new System.Drawing.Point(336, 12);
+            this.ButtonMoveDown.Location = new System.Drawing.Point(377, 12);
             this.ButtonMoveDown.Name = "ButtonMoveDown";
             this.ButtonMoveDown.Size = new System.Drawing.Size(75, 23);
             this.ButtonMoveDown.TabIndex = 2;
@@ -102,7 +103,7 @@ namespace Traything.UI
             // ButtonMoveUp
             // 
             this.ButtonMoveUp.Enabled = false;
-            this.ButtonMoveUp.Location = new System.Drawing.Point(255, 12);
+            this.ButtonMoveUp.Location = new System.Drawing.Point(296, 12);
             this.ButtonMoveUp.Name = "ButtonMoveUp";
             this.ButtonMoveUp.Size = new System.Drawing.Size(75, 23);
             this.ButtonMoveUp.TabIndex = 2;
@@ -137,11 +138,23 @@ namespace Traything.UI
             this.LinkLabelAbout.Text = "About";
             this.LinkLabelAbout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelAbout_LinkClicked);
             // 
+            // ButtonExecute
+            // 
+            this.ButtonExecute.Enabled = false;
+            this.ButtonExecute.Location = new System.Drawing.Point(499, 12);
+            this.ButtonExecute.Name = "ButtonExecute";
+            this.ButtonExecute.Size = new System.Drawing.Size(75, 23);
+            this.ButtonExecute.TabIndex = 6;
+            this.ButtonExecute.Text = "Execute";
+            this.ButtonExecute.UseVisualStyleBackColor = true;
+            this.ButtonExecute.Click += new System.EventHandler(this.ButtonExecute_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 583);
+            this.Controls.Add(this.ButtonExecute);
             this.Controls.Add(this.LinkLabelAbout);
             this.Controls.Add(this.ListBoxActions);
             this.Controls.Add(this.ButtonMoveDown);
@@ -171,6 +184,7 @@ namespace Traything.UI
         private System.Windows.Forms.Button ButtonMoveUp;
         private System.Windows.Forms.ListBox ListBoxActions;
         private System.Windows.Forms.LinkLabel LinkLabelAbout;
+        private System.Windows.Forms.Button ButtonExecute;
     }
 }
 
