@@ -55,10 +55,10 @@ namespace Traything.UI
 
 		private void ExeWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() =>
+			Task.Delay(10000).ContinueWith(x => this.Invoke(new Action(() =>
 			{
 				Application.Restart();
-				Environment.Exit(0);
+				Environment.FailFast("Application executable was updated");
 			})));
 		}
 
