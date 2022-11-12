@@ -51,7 +51,7 @@ There is none. The progress of a specific bug/enhancement is always tracked in t
 
 ## How to build
 
-You will need Visual Studio 2022. All dependencies are included, available via NuGet or will be downloaded at compile time.
+You will need Visual Studio 2022. All dependencies are included or available via NuGet.
 
 ## License
 
