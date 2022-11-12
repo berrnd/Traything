@@ -160,7 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>106.0.260</Version>
+      <Version>107.1.50</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp.WinForms">
       <Version>3.6.7</Version>
