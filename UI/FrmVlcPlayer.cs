@@ -223,7 +223,11 @@ namespace Traything.UI
 
 		private void FrmVlcPlayer_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			this.Fullscreen_On = false;
+			if (this.Fullscreen_On)
+			{
+				this.ToggleFullscreen();
+			}
+
 			this.VlcVideoView.MediaPlayer.Stop();
 			this.TimerUpdatePlayProgress.Stop();
 		}
