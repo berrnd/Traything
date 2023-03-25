@@ -26,6 +26,7 @@ namespace Traything.UI
 		private TransparentPanel VlcPlayerOverlayPanel;
 		private DateTime PlaybackStartTime;
 		private bool FirstPlaybackStart = true;
+		private bool OverlaySingleClick = true;
 
 		private void SetupVlc()
 		{
@@ -47,27 +48,42 @@ namespace Traything.UI
 			this.VlcPlayerOverlayPanel.ContextMenuStrip = this.ContextMenuStripVlcPlayerOverlayPanel;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcPlayerOverlayPanel);
 			this.VlcPlayerOverlayPanel.BringToFront();
-			this.VlcPlayerOverlayPanel.DoubleClick += VlcPlayerOverlayPanel_DoubleClick;
 			this.VlcPlayerOverlayPanel.MouseClick += VlcPlayerOverlayPanel_MouseClick;
+			this.VlcPlayerOverlayPanel.MouseDoubleClick += VlcPlayerOverlayPanel_MouseDoubleClick; ;
 		}
 
-		private void VlcPlayerOverlayPanel_MouseClick(object sender, MouseEventArgs e)
+		private void VlcPlayerOverlayPanel_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if (this.ButtonPlayPause.Enabled)
+			this.OverlaySingleClick = false;
+
+			// Double click handling
+			if (e.Button == MouseButtons.Left)
+			{
+				if (this.WindowState == FormWindowState.Maximized)
+				{
+					this.WindowState = FormWindowState.Normal;
+				}
+				else
+				{
+					this.WindowState = FormWindowState.Maximized;
+				}
+			}
+		}
+
+		private async void VlcPlayerOverlayPanel_MouseClick(object sender, MouseEventArgs e)
+		{
+			this.OverlaySingleClick = true;
+			await Task.Delay(SystemInformation.DoubleClickTime);
+
+			if (!this.OverlaySingleClick)
+			{
+				return;
+			}
+
+			// Single click handling
+			if (e.Button == MouseButtons.Left && this.ButtonPlayPause.Enabled)
 			{
 				this.ButtonPlayPause.PerformClick();
-			}
-		}
-
-		private void VlcPlayerOverlayPanel_DoubleClick(object sender, EventArgs e)
-		{
-			if (this.WindowState == FormWindowState.Maximized)
-			{
-				this.WindowState = FormWindowState.Normal;
-			}
-			else
-			{
-				this.WindowState = FormWindowState.Maximized;
 			}
 		}
 
