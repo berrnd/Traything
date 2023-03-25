@@ -13,9 +13,10 @@ namespace Traything.UI
 {
 	public partial class FrmVlcPlayer : BaseTrayForm
 	{
-		public FrmVlcPlayer()
+		public FrmVlcPlayer(FrmMain parent)
 		{
 			InitializeComponent();
+			this.Parent = parent;
 			this.Show();
 		}
 

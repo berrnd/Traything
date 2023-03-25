@@ -26,6 +26,11 @@ namespace Traything.UI
 		private FileSystemWatcher ConfigFileWatcher;
 		private FileSystemWatcher ExeWatcher;
 
+		internal void SaveSettings()
+		{
+			this.Settings.Save();
+		}
+
 		private void FrmMain_Shown(object sender, EventArgs e)
 		{
 			this.Hide();
@@ -132,7 +137,7 @@ namespace Traything.UI
 				// Preheat CefSharp (one instance)
 				if (this.Browsers.Count == 0)
 				{
-					this.Browsers.Add(new FrmBrowser());
+					this.Browsers.Add(new FrmBrowser(this));
 				}
 			}
 			else
@@ -153,7 +158,7 @@ namespace Traything.UI
 				// Preheat VLC (one instance)
 				if (this.Players.Count == 0)
 				{
-					this.Players.Add(new FrmVlcPlayer());
+					this.Players.Add(new FrmVlcPlayer(this));
 				}
 			}
 			else
@@ -327,7 +332,7 @@ namespace Traything.UI
 
 			if (availableBrowser == null)
 			{
-				availableBrowser = new FrmBrowser();
+				availableBrowser = new FrmBrowser(this);
 				this.Browsers.Add(availableBrowser);
 			}
 
@@ -340,7 +345,7 @@ namespace Traything.UI
 
 			if (availablePlayer == null)
 			{
-				availablePlayer = new FrmVlcPlayer();
+				availablePlayer = new FrmVlcPlayer(this);
 				this.Players.Add(availablePlayer);
 			}
 

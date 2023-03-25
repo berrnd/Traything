@@ -7,11 +7,20 @@ namespace Traything.UI
 {
 	public partial class BaseTrayForm : Form
 	{
+		// Visual Studio designer requires a parameterless constructor
 		public BaseTrayForm()
 		{
 			InitializeComponent();
 		}
 
+		public BaseTrayForm(FrmMain parent)
+		{
+			InitializeComponent();
+			this.Parent = parent;
+			this.Show();
+		}
+
+		protected new FrmMain Parent;
 		protected ActionItem ActionItem;
 		protected bool Ready = false;
 

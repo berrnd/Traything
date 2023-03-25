@@ -73,6 +73,9 @@ namespace Traything.Data
 		[Description("When Type = ShowTrayMediaPlayer, whether to show the media title (if any) in the window title")]
 		public bool ShowMediaTitle { get; set; } = false;
 
+		[Browsable(false)]
+		public double BrowserZoomLevel { get; set; } = 0;
+
 		public override string ToString()
 		{
 			return $"{this.Name} [{this.Type}] [{this.Scope}]";

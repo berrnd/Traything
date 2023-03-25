@@ -10,9 +10,10 @@ namespace Traything.UI
 {
 	public partial class FrmBrowser : BaseTrayForm
 	{
-		public FrmBrowser()
+		public FrmBrowser(FrmMain parent)
 		{
 			InitializeComponent();
+			this.Parent = parent;
 			this.Show();
 		}
 
@@ -39,7 +40,14 @@ namespace Traything.UI
 
 			this.Browser = new ChromiumWebBrowser("about:blank");
 			this.Browser.Dock = DockStyle.Fill;
+			this.Browser.MenuHandler = new BrowserContextMenuHandler();
+			this.Browser.FrameLoadEnd += Browser_FrameLoadEnd;
 			this.Controls.Add(this.Browser);
+		}
+
+		private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+		{
+			this.Browser.SetZoomLevel(this.ActionItem.BrowserZoomLevel);
 		}
 
 		private void FrmBrowser_Shown(object sender, EventArgs e)
@@ -60,7 +68,70 @@ namespace Traything.UI
 
 		private void FrmBrowser_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			this.Browser.GetZoomLevelAsync().ContinueWith(task =>
+			{
+				if (task.Result != this.ActionItem.BrowserZoomLevel)
+				{
+					this.ActionItem.BrowserZoomLevel = task.Result;
+					this.Parent.SaveSettings();
+				}
+			});
+
 			this.Browser.Load("about:blank");
+		}
+	}
+
+	public class BrowserContextMenuHandler : IContextMenuHandler
+	{
+		public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+		{
+			model.Clear();
+
+			model.AddItem((CefMenuCommand)26501, "Zoom In");
+			model.AddItem((CefMenuCommand)26502, "Zoom Out");
+			model.AddItem((CefMenuCommand)26503, "Zoom Reset");
+		}
+
+		public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+		{
+			// Zoom In
+			if (commandId == (CefMenuCommand)26501)
+			{
+				browser.GetZoomLevelAsync().ContinueWith(task =>
+				{
+					browser.SetZoomLevel(task.Result + 0.5);
+				});
+
+				return true;
+			}
+
+			// Zoom Out
+			if (commandId == (CefMenuCommand)26502)
+			{
+				browser.GetZoomLevelAsync().ContinueWith(task =>
+				{
+					browser.SetZoomLevel(task.Result - 0.5);
+				});
+
+				return true;
+			}
+
+			// Zoom Reset
+			if (commandId == (CefMenuCommand)26503)
+			{
+				browser.SetZoomLevel(0);
+				return true;
+			}
+
+			return false;
+		}
+
+		public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+		{ }
+
+		public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+		{
+			return false;
 		}
 	}
 }
