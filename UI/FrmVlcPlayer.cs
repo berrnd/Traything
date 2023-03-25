@@ -47,6 +47,15 @@ namespace Traything.UI
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcPlayerOverlayPanel);
 			this.VlcPlayerOverlayPanel.BringToFront();
 			this.VlcPlayerOverlayPanel.DoubleClick += VlcPlayerOverlayPanel_DoubleClick;
+			this.VlcPlayerOverlayPanel.MouseClick += VlcPlayerOverlayPanel_MouseClick;
+		}
+
+		private void VlcPlayerOverlayPanel_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (this.ButtonPlayPause.Enabled)
+			{
+				this.ButtonPlayPause.PerformClick();
+			}
 		}
 
 		private void VlcPlayerOverlayPanel_DoubleClick(object sender, EventArgs e)
