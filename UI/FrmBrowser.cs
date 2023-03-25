@@ -68,14 +68,17 @@ namespace Traything.UI
 
 		private void FrmBrowser_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			this.Browser.GetZoomLevelAsync().ContinueWith(task =>
+			if (this.Browser.IsBrowserInitialized)
 			{
-				if (task.Result != this.ActionItem.BrowserZoomLevel)
+				this.Browser.GetZoomLevelAsync().ContinueWith(task =>
 				{
-					this.ActionItem.BrowserZoomLevel = task.Result;
-					this.Parent.SaveSettings();
-				}
-			});
+					if (task.Result != this.ActionItem.BrowserZoomLevel)
+					{
+						this.ActionItem.BrowserZoomLevel = task.Result;
+						this.Parent.SaveSettings();
+					}
+				});
+			}
 
 			this.Browser.Load("about:blank");
 		}

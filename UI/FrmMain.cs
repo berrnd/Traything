@@ -185,7 +185,7 @@ namespace Traything.UI
 			try
 			{
 				item.PathOrUrlReplaced = item.PathOrUrl;
-				if (item.PathOrUrl.Contains("{QUERYSTRING}"))
+				if (item.PathOrUrl != null && item.PathOrUrl.Contains("{QUERYSTRING}"))
 				{
 					using (FrmQueryString dialog = new FrmQueryString(item))
 					{
