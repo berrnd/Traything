@@ -22,8 +22,6 @@ namespace Traything.UI
 		{
 			if (!Cef.IsInitialized)
 			{
-				Cef.EnableHighDPISupport();
-
 				CefSettings cefSettings = new CefSettings();
 				cefSettings.BrowserSubprocessPath = Path.Combine(Program.BaseExecutingPath, @"CefSharp.BrowserSubprocess.exe");
 				cefSettings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");

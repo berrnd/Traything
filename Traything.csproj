@@ -160,13 +160,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>107.1.50</Version>
+      <Version>111.2.20</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp.WinForms">
-      <Version>3.6.7</Version>
+      <Version>3.6.8</Version>
     </PackageReference>
     <PackageReference Include="VideoLAN.LibVLC.Windows">
-      <Version>3.0.17.4</Version>
+      <Version>3.0.18</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
