@@ -1,6 +1,7 @@
 using CefSharp;
 using CefSharp.WinForms;
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -42,6 +43,7 @@ namespace Traything.UI
 			this.Browser.Dock = DockStyle.Fill;
 			this.Browser.MenuHandler = new BrowserContextMenuHandler();
 			this.Browser.FrameLoadEnd += Browser_FrameLoadEnd;
+			this.Browser.Tag = this;
 			this.Controls.Add(this.Browser);
 		}
 
@@ -64,6 +66,11 @@ namespace Traything.UI
 
 			this.Browser.Load(item.PathOrUrlReplaced);
 			base.ShowTrayForm(item);
+
+			if (item.StartFullscreen)
+			{
+				this.ToggleFullscreen();
+			}
 		}
 
 		private void FrmBrowser_FormClosing(object sender, FormClosingEventArgs e)
@@ -81,6 +88,35 @@ namespace Traything.UI
 			}
 
 			this.Browser.Load("about:blank");
+
+			if (this.Fullscreen_On)
+			{
+				this.ToggleFullscreen();
+			}
+		}
+
+		private bool Fullscreen_On = false;
+		private FormBorderStyle Fullscreen_SavedBorderStyle;
+		private Rectangle Fullscreen_SavedBounds;
+		internal void ToggleFullscreen()
+		{
+			if (this.Fullscreen_On)
+			{
+				// Exit fullscreen
+				this.FormBorderStyle = this.Fullscreen_SavedBorderStyle;
+				this.Bounds = this.Fullscreen_SavedBounds;
+			}
+			else
+			{
+				// Start fullscreen
+				this.Fullscreen_SavedBorderStyle = this.FormBorderStyle;
+				this.Fullscreen_SavedBounds = this.Bounds;
+				this.WindowState = FormWindowState.Normal;
+				this.FormBorderStyle = FormBorderStyle.None;
+				this.Bounds = Screen.GetBounds(this.Bounds);
+			}
+
+			this.Fullscreen_On = !this.Fullscreen_On;
 		}
 	}
 
@@ -93,10 +129,17 @@ namespace Traything.UI
 			model.AddItem((CefMenuCommand)26501, "Zoom In");
 			model.AddItem((CefMenuCommand)26502, "Zoom Out");
 			model.AddItem((CefMenuCommand)26503, "Zoom Reset");
+			model.AddSeparator();
+			model.AddItem((CefMenuCommand)26521, "Toggle fullscreen mode");
+			model.AddSeparator();
+			model.AddItem((CefMenuCommand)26531, "Close");
 		}
 
 		public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
 		{
+			ChromiumWebBrowser chromiumBrowser = browserControl as ChromiumWebBrowser;
+			FrmBrowser parentForm = chromiumBrowser.Tag as FrmBrowser;
+
 			// Zoom In
 			if (commandId == (CefMenuCommand)26501)
 			{
@@ -123,6 +166,28 @@ namespace Traything.UI
 			if (commandId == (CefMenuCommand)26503)
 			{
 				browser.SetZoomLevel(0);
+				return true;
+			}
+
+			// Toggle fullscreen mode
+			if (commandId == (CefMenuCommand)26521)
+			{
+				parentForm.BeginInvoke(new Action(() =>
+				{
+					parentForm.ToggleFullscreen();
+				}));
+
+				return true;
+			}
+
+			// Close
+			if (commandId == (CefMenuCommand)26531)
+			{
+				parentForm.BeginInvoke(new Action(() =>
+				{
+					parentForm.Close();
+				}));
+
 				return true;
 			}
 
