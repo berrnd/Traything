@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace Traything.Data
 {
@@ -42,7 +43,7 @@ namespace Traything.Data
 		public BindingList<string> Headers { get; private set; } = new BindingList<string>();
 
 		[Category("TrayWindows"), Display(Order = 210)]
-		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened")]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened (can contain \"{QUERYSTRING}\" for on-demand placeholders)")]
 		public string PathOrUrl { get; set; }
 
 		[Category("TrayWindows"), Display(Order = 310)]
@@ -75,6 +76,10 @@ namespace Traything.Data
 
 		[Browsable(false)]
 		public double BrowserZoomLevel { get; set; } = 0;
+
+		[XmlIgnore]
+		[Browsable(false)]
+		public string PathOrUrlReplaced { get; set; }
 
 		public override string ToString()
 		{

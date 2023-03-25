@@ -62,7 +62,7 @@ namespace Traything.UI
 				Application.DoEvents();
 			}
 
-			this.Browser.Load(item.PathOrUrl);
+			this.Browser.Load(item.PathOrUrlReplaced);
 			base.ShowTrayForm(item);
 		}
 

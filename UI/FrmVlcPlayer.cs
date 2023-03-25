@@ -127,7 +127,7 @@ namespace Traything.UI
 			}
 
 			this.FirstPlaybackStart = true;
-			this.LoadMediaAndPlay(item.PathOrUrl);
+			this.LoadMediaAndPlay(item.PathOrUrlReplaced);
 			base.ShowTrayForm(item);
 			this.UpdateTitle();
 

@@ -184,6 +184,22 @@ namespace Traything.UI
 		{
 			try
 			{
+				item.PathOrUrlReplaced = item.PathOrUrl;
+				if (item.PathOrUrl.Contains("{QUERYSTRING}"))
+				{
+					using (FrmQueryString dialog = new FrmQueryString(item))
+					{
+						if (dialog.ShowDialog(this) == DialogResult.OK)
+						{
+							item.PathOrUrlReplaced = item.PathOrUrl.Replace("{QUERYSTRING}", dialog.QueryString);
+						}
+						else
+						{
+							return;
+						}
+					}
+				}
+
 				if (item.Type == ActionType.CloseTraything)
 				{
 					if (this.Browsers.Count > 0)
