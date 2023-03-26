@@ -19,7 +19,7 @@ namespace Traything.Data
 		public ActionScope Scope { get; set; }
 
 		[Category("Common"), Display(Order = 40)]
-		[Description("When Scope = ThisComputer, one or multiple hostnames of the corresponding machine (case-insensitiv)")]
+		[Description("When Scope = ThisComputer, one or multiple hostnames of the corresponding machine(s) (case-insensitiv)")]
 		public BindingList<string> Hostnames { get; private set; } = new BindingList<string>();
 
 		[Category("Common"), Display(Order = 50)]
@@ -39,38 +39,38 @@ namespace Traything.Data
 		public string PostData { get; set; }
 
 		[Category("HttpRequest"), Display(Order = 230)]
-		[Description("When Type = HttpGetRequest or HttpPostRequest, headers to be used")]
+		[Description("When Type = HttpGetRequest or HttpPostRequest, headers to be sent")]
 		public BindingList<string> Headers { get; private set; } = new BindingList<string>();
 
-		[Category("TrayWindows"), Display(Order = 210)]
+		[Category("TrayWindow"), Display(Order = 210)]
 		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened (can contain \"{QUERYSTRING}\" for on-demand placeholders)")]
 		public string PathOrUrl { get; set; }
 
-		[Category("TrayWindows"), Display(Order = 310)]
+		[Category("TrayWindow"), Display(Order = 310)]
 		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, the width of the window")]
 		public int Width { get; set; } = 770;
 
-		[Category("TrayWindows"), Display(Order = 320)]
+		[Category("TrayWindow"), Display(Order = 320)]
 		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, the height of the window")]
 		public int Height { get; set; } = 500;
 
-		[Category("TrayWindows"), Display(Order = 330)]
+		[Category("TrayWindow"), Display(Order = 330)]
 		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, whether to keep the window open when it loses focus")]
 		public bool StayOpen { get; set; } = false;
+
+		[Category("TrayWindow"), Display(Order = 340)]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, whether to start in fullscreen mode")]
+		public bool StartFullscreen { get; set; } = false;
 
 		[Category("TrayMediaPlayer"), Display(Order = 400)]
 		[Description("When Type = ShowTrayMediaPlayer, whether to mute audio on start")]
 		public bool StartMuted { get; set; } = false;
 
 		[Category("TrayMediaPlayer"), Display(Order = 410)]
-		[Description("When Type = ShowTrayMediaPlayer, whether to start in fullscreen mode")]
-		public bool StartFullscreen { get; set; } = false;
-
-		[Category("TrayMediaPlayer"), Display(Order = 420)]
 		[Description("When Type = ShowTrayMediaPlayer, whether to start minimized (e.g. for audio only playback)")]
 		public bool StartMinimized { get; set; } = false;
 
-		[Category("TrayMediaPlayer"), Display(Order = 430)]
+		[Category("TrayMediaPlayer"), Display(Order = 420)]
 		[Description("When Type = ShowTrayMediaPlayer, whether to show the media title (if any) in the window title")]
 		public bool ShowMediaTitle { get; set; } = false;
 
