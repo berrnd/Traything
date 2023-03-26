@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Traything.Data;
@@ -185,17 +186,27 @@ namespace Traything.UI
 			try
 			{
 				item.PathOrUrlReplaced = item.PathOrUrl;
-				if (item.PathOrUrl != null && item.PathOrUrl.Contains("{QUERYSTRING}"))
+
+				if (item.PathOrUrlReplaced != null && item.PathOrUrlReplaced.Contains("{QUERYSTRING"))
 				{
-					using (FrmQueryString dialog = new FrmQueryString(item))
+					foreach (Match placeholder in Regex.Matches(item.PathOrUrlReplaced, "{(.*?)}"))
 					{
-						if (dialog.ShowDialog(this) == DialogResult.OK)
+						string prompt = "Enter placeholder value";
+						if (placeholder.Groups[1].Value.Contains(":"))
 						{
-							item.PathOrUrlReplaced = item.PathOrUrl.Replace("{QUERYSTRING}", dialog.QueryString);
+							prompt += $" ({placeholder.Groups[1].Value.Split(':')[1]})";
 						}
-						else
+
+						using (FrmQueryString dialog = new FrmQueryString(item, prompt))
 						{
-							return;
+							if (dialog.ShowDialog(this) == DialogResult.OK)
+							{
+								item.PathOrUrlReplaced = item.PathOrUrlReplaced.Replace(placeholder.Value, dialog.QueryString);
+							}
+							else
+							{
+								return;
+							}
 						}
 					}
 				}

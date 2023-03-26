@@ -43,7 +43,7 @@ namespace Traything.Data
 		public BindingList<string> Headers { get; private set; } = new BindingList<string>();
 
 		[Category("TrayWindow"), Display(Order = 210)]
-		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened (can contain \"{QUERYSTRING}\" for on-demand placeholders)")]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened (can contain \"{QUERYSTRING[:<OptionalName>]}\" for on-demand placeholders)")]
 		public string PathOrUrl { get; set; }
 
 		[Category("TrayWindow"), Display(Order = 310)]
