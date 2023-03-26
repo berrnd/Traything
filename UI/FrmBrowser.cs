@@ -126,13 +126,16 @@ namespace Traything.UI
 		{
 			model.Clear();
 
-			model.AddItem((CefMenuCommand)26501, "Zoom In");
-			model.AddItem((CefMenuCommand)26502, "Zoom Out");
-			model.AddItem((CefMenuCommand)26503, "Zoom Reset");
+			model.AddItem((CefMenuCommand)26501, browser.MainFrame.Url);
 			model.AddSeparator();
-			model.AddItem((CefMenuCommand)26511, "Toggle fullscreen mode");
+			model.AddItem((CefMenuCommand)26521, "Zoom In");
+			model.AddItem((CefMenuCommand)26522, "Zoom Out");
+			model.AddItem((CefMenuCommand)26523, "Zoom Reset");
 			model.AddSeparator();
-			model.AddItem((CefMenuCommand)26521, "Close");
+			model.AddItem((CefMenuCommand)26531, "Toggle fullscreen mode");
+			model.AddSeparator();
+			model.AddItem((CefMenuCommand)26541, "Close");
+
 		}
 
 		public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
@@ -140,8 +143,17 @@ namespace Traything.UI
 			ChromiumWebBrowser chromiumBrowser = browserControl as ChromiumWebBrowser;
 			FrmBrowser parentForm = chromiumBrowser.Tag as FrmBrowser;
 
-			// Zoom In
+			// Current URL
 			if (commandId == (CefMenuCommand)26501)
+			{
+				Clipboard.SetText(browser.MainFrame.Url);
+
+				return true;
+			}
+
+
+			// Zoom In
+			if (commandId == (CefMenuCommand)26521)
 			{
 				browser.GetZoomLevelAsync().ContinueWith(task =>
 				{
@@ -152,7 +164,7 @@ namespace Traything.UI
 			}
 
 			// Zoom Out
-			if (commandId == (CefMenuCommand)26502)
+			if (commandId == (CefMenuCommand)26522)
 			{
 				browser.GetZoomLevelAsync().ContinueWith(task =>
 				{
@@ -163,14 +175,14 @@ namespace Traything.UI
 			}
 
 			// Zoom Reset
-			if (commandId == (CefMenuCommand)26503)
+			if (commandId == (CefMenuCommand)26523)
 			{
 				browser.SetZoomLevel(0);
 				return true;
 			}
 
 			// Toggle fullscreen mode
-			if (commandId == (CefMenuCommand)26511)
+			if (commandId == (CefMenuCommand)26531)
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{
@@ -181,7 +193,7 @@ namespace Traything.UI
 			}
 
 			// Close
-			if (commandId == (CefMenuCommand)26521)
+			if (commandId == (CefMenuCommand)26541)
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{
