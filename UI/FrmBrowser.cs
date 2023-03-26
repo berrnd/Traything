@@ -130,9 +130,9 @@ namespace Traything.UI
 			model.AddItem((CefMenuCommand)26502, "Zoom Out");
 			model.AddItem((CefMenuCommand)26503, "Zoom Reset");
 			model.AddSeparator();
-			model.AddItem((CefMenuCommand)26521, "Toggle fullscreen mode");
+			model.AddItem((CefMenuCommand)26511, "Toggle fullscreen mode");
 			model.AddSeparator();
-			model.AddItem((CefMenuCommand)26531, "Close");
+			model.AddItem((CefMenuCommand)26521, "Close");
 		}
 
 		public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
@@ -170,7 +170,7 @@ namespace Traything.UI
 			}
 
 			// Toggle fullscreen mode
-			if (commandId == (CefMenuCommand)26521)
+			if (commandId == (CefMenuCommand)26511)
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{
@@ -181,7 +181,7 @@ namespace Traything.UI
 			}
 
 			// Close
-			if (commandId == (CefMenuCommand)26531)
+			if (commandId == (CefMenuCommand)26521)
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{

@@ -317,7 +317,10 @@ namespace Traything.UI
 		{
 			if (!this.ActionItem.IgnoreErrors)
 			{
-				MessageBox.Show(text, $"VLC error: {title}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				this.BeginInvoke(new Action(() =>
+				{
+					MessageBox.Show(text, $"VLC error: {title}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}));
 			}
 
 			return Task.CompletedTask;
