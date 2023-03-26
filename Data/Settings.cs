@@ -7,7 +7,8 @@ namespace Traything.Data
 	public class Settings
 	{
 		internal static readonly string _Path = Path.Combine(Program.BaseExecutingPath, "Traything.xml");
-		public List<ActionItem> Actions = new List<ActionItem>();
+		public List<ActionItem> Actions { get; set; } = new List<ActionItem>();
+		public string Version { get; set; } = "1.3.0"; // Version flag was introduced after v1.3.0, so assuming that version initially
 
 		public static Settings Load()
 		{
@@ -32,6 +33,8 @@ namespace Traything.Data
 
 		public void Save()
 		{
+			this.Version = Program.RunningVersion;
+
 			XmlSerializer serializer = new XmlSerializer(typeof(Settings));
 			using (TextWriter textWriter = new StreamWriter(Settings._Path))
 			{
