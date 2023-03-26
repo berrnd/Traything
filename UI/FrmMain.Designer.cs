@@ -162,8 +162,8 @@ namespace Traything.UI
             this.Controls.Add(this.ButtonRemove);
             this.Controls.Add(this.ButtonEdit);
             this.Controls.Add(this.ButtonAdd);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Traything";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
