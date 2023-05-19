@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="Logo" height="50" src="https://raw.githubusercontent.com/berrnd/Traything/main/logo.svg?sanitize=true" />
+<img alt="Logo" height="60" src="https://raw.githubusercontent.com/berrnd/Traything/main/logo.svg?sanitize=true" />
 <h3>A simple but practical (Windows) tray web browser, media / stream player and program launcher.<br>Created by <a href="https://github.com/berrnd">@berrnd</a></h3>
 </div>
 
