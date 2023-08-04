@@ -179,17 +179,6 @@ namespace Traything.UI
 			{
 				// Multiple items / playlist
 				this.ButtonPlaylistNext.Visible = true;
-
-				this.ContextMenuStripPlaylist.Items.Clear();
-				foreach (Media item in this.VlcMedia.SubItems)
-				{
-					this.ContextMenuStripPlaylist.Items.Add(new ToolStripMenuItem
-					{
-						Text = item.Meta(MetadataType.Title),
-						Tag = item.Mrl
-					});
-				}
-
 				this.PlayMedia(this.VlcMedia.SubItems.First());
 			}
 		}
@@ -209,24 +198,6 @@ namespace Traything.UI
 			this.PlaybackStartTime = DateTime.Now;
 			this.VlcVideoView.MediaPlayer.Play(media);
 			this.UpdateTitle();
-
-			if (this.VlcMedia.SubItems.Count > 0)
-			{
-				this.BeginInvoke(new Action(() =>
-				{
-					foreach (ToolStripMenuItem item in this.ContextMenuStripPlaylist.Items)
-					{
-						if ((string)item.Tag == media.Mrl)
-						{
-							item.Font = new Font(item.Font, FontStyle.Bold);
-						}
-						else
-						{
-							item.Font = new Font(item.Font, FontStyle.Regular);
-						}
-					}
-				}));
-			}
 		}
 
 		private void UpdateTitle()
@@ -256,6 +227,7 @@ namespace Traything.UI
 
 			this.VlcVideoView.MediaPlayer.Stop();
 			this.TimerUpdatePlayProgress.Stop();
+			this.ContextMenuStripPlaylist.Items.Clear();
 		}
 
 		private void ButtonPlayPause_Click(object sender, EventArgs e)
@@ -384,18 +356,52 @@ namespace Traything.UI
 		{
 			this.Close();
 		}
-	}
 
-	public class TransparentPanel : Panel
-	{
-		protected override CreateParams CreateParams
+		private void ContextMenuStripPlaylist_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			get
+			Cursor.Current = Cursors.WaitCursor;
+
+			// Load playlist context menu items on-demand / on first context menu opening
+			if (this.VlcMedia.SubItems.Count > 0)
 			{
-				CreateParams p = base.CreateParams;
-				p.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
-				return p;
+				if (this.ContextMenuStripPlaylist.Items.Count == 0)
+				{
+					foreach (Media item in this.VlcMedia.SubItems)
+					{
+						this.ContextMenuStripPlaylist.Items.Add(new ToolStripMenuItem
+						{
+							Text = item.Meta(MetadataType.Title),
+							Tag = item.Mrl
+						});
+					}
+
+					e.Cancel = false;
+				}
 			}
+
+			foreach (ToolStripMenuItem item in this.ContextMenuStripPlaylist.Items)
+			{
+				item.Text = item.Text.Replace("▶ ", "");
+				if ((string)item.Tag == this.VlcVideoView.MediaPlayer.Media.Mrl)
+				{
+					item.Text = "▶ " + item.Text;
+				}
+			}
+
+			Cursor.Current = Cursors.Default;
+		}
+	}
+}
+
+public class TransparentPanel : Panel
+{
+	protected override CreateParams CreateParams
+	{
+		get
+		{
+			CreateParams p = base.CreateParams;
+			p.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
+			return p;
 		}
 	}
 }

@@ -118,7 +118,8 @@ namespace Traything.UI
             this.ContextMenuStripPlaylist.Name = "ContextMenuStripPlaylist";
             this.ContextMenuStripPlaylist.ShowImageMargin = false;
             this.ContextMenuStripPlaylist.ShowItemToolTips = false;
-            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(36, 4);
+            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(156, 26);
+            this.ContextMenuStripPlaylist.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripPlaylist_Opening);
             this.ContextMenuStripPlaylist.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ContextMenuStripPlaylist_ItemClicked);
             // 
             // ProgressBarBusy
@@ -167,7 +168,7 @@ namespace Traything.UI
             this.ContextMenuStripVlcPlayerOverlayPanel.Name = "ContextMenuStripVlcOverlayPanel";
             this.ContextMenuStripVlcPlayerOverlayPanel.ShowImageMargin = false;
             this.ContextMenuStripVlcPlayerOverlayPanel.ShowItemToolTips = false;
-            this.ContextMenuStripVlcPlayerOverlayPanel.Size = new System.Drawing.Size(173, 98);
+            this.ContextMenuStripVlcPlayerOverlayPanel.Size = new System.Drawing.Size(173, 76);
             // 
             // ToolStripMenuItemToggleFullscreen
             // 
