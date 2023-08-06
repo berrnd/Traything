@@ -27,7 +27,6 @@ namespace Traything.UI
 				CefSettings cefSettings = new CefSettings();
 				cefSettings.BrowserSubprocessPath = Path.Combine(Program.BaseExecutingPath, @"CefSharp.BrowserSubprocess.exe");
 				cefSettings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
-				cefSettings.UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Traything");
 				cefSettings.LogSeverity = LogSeverity.Disable;
 				cefSettings.CefCommandLineArgs.Add("--enable-media-stream");
 				cefSettings.CefCommandLineArgs.Add("--unsafely-treat-insecure-origin-as-secure", "file://");
