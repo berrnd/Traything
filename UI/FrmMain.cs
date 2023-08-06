@@ -18,14 +18,12 @@ namespace Traything.UI
 			InitializeComponent();
 
 			this.ConfigFileWatcher = new FileSystemWatcher();
-			this.ExeWatcher = new FileSystemWatcher();
 		}
 
 		private Settings Settings;
 		private readonly List<FrmBrowser> Browsers = new List<FrmBrowser>();
 		private readonly List<FrmVlcPlayer> Players = new List<FrmVlcPlayer>();
 		private FileSystemWatcher ConfigFileWatcher;
-		private FileSystemWatcher ExeWatcher;
 
 		internal void SaveSettings()
 		{
@@ -44,11 +42,6 @@ namespace Traything.UI
 				this.ConfigFileWatcher.Changed += ConfigFileWatcher_Changed;
 				this.ConfigFileWatcher.EnableRaisingEvents = true;
 			}
-
-			this.ExeWatcher.Path = Program.BaseExecutingPath;
-			this.ExeWatcher.Filter = Path.Combine(Program.ExeName);
-			this.ExeWatcher.Changed += ExeWatcher_Changed;
-			this.ExeWatcher.EnableRaisingEvents = true;
 		}
 
 		private void ConfigFileWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -56,15 +49,6 @@ namespace Traything.UI
 			Task.Delay(1000).ContinueWith(x => this.Invoke(new Action(() =>
 			{
 				this.Reload();
-			})));
-		}
-
-		private void ExeWatcher_Changed(object sender, FileSystemEventArgs e)
-		{
-			Task.Delay(10000).ContinueWith(x => this.Invoke(new Action(() =>
-			{
-				Application.Restart();
-				Environment.FailFast("Application executable was updated");
 			})));
 		}
 
