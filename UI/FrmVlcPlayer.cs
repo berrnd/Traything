@@ -300,7 +300,18 @@ namespace Traything.UI
 
 		private void ButtonPlaylistNext_Click(object sender, EventArgs e)
 		{
-			Media nextItem = this.VlcMedia.SubItems.SkipWhile(x => x.Mrl != this.VlcVideoView.MediaPlayer.Media.Mrl).Skip(1).FirstOrDefault();
+			Media nextItem = null;
+			if (Control.ModifierKeys == Keys.None)
+			{
+				// Forwards
+				nextItem = this.VlcMedia.SubItems.SkipWhile(x => x.Mrl != this.VlcVideoView.MediaPlayer.Media.Mrl).Skip(1).FirstOrDefault();
+			}
+			else
+			{
+				// Backwards
+				nextItem = this.VlcMedia.SubItems.TakeWhile(x => x.Mrl != this.VlcVideoView.MediaPlayer.Media.Mrl).LastOrDefault();
+			}
+
 			if (nextItem != null)
 			{
 				this.PlayMedia(nextItem);
