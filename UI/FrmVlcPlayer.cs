@@ -25,7 +25,7 @@ namespace Traything.UI
 		private Media VlcMedia;
 		private TransparentPanel VlcPlayerOverlayPanel;
 		private DateTime PlaybackStartTime;
-		private bool FirstPlaybackStart = true;
+		private bool FirstPlaybackStarted = false;
 		private bool OverlaySingleClick = true;
 
 		private void SetupVlc()
@@ -39,6 +39,7 @@ namespace Traything.UI
 			this.VlcVideoView.MediaPlayer.Playing += MediaPlayer_Playing;
 			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
 			this.VlcVideoView.MediaPlayer.EndReached += MediaPlayer_EndReached;
+			this.VlcVideoView.MediaPlayer.Buffering += MediaPlayer_Buffering;
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcVideoView);
@@ -89,12 +90,6 @@ namespace Traything.UI
 
 		private void MediaPlayer_Playing(object sender, EventArgs e)
 		{
-			if (this.FirstPlaybackStart)
-			{
-				this.FirstPlaybackStart = false;
-				this.VlcVideoView.MediaPlayer.Mute = this.ActionItem.StartMuted;
-			}
-
 			this.BeginInvoke(new Action(() =>
 			{
 				this.ButtonPlayPause.Text = "Pause";
@@ -130,6 +125,19 @@ namespace Traything.UI
 			}
 		}
 
+		private void MediaPlayer_Buffering(object sender, MediaPlayerBufferingEventArgs e)
+		{
+			if (!this.FirstPlaybackStarted && this.VlcMedia.Tracks.Count() > 0)
+			{
+				this.FirstPlaybackStarted = true;
+
+				if (this.ActionItem.StartMuted)
+				{
+					this.ToggleMute();
+				}
+			}
+		}
+
 		private void FrmVlcPlayer_Shown(object sender, EventArgs e)
 		{
 			this.SetupVlc();
@@ -142,7 +150,7 @@ namespace Traything.UI
 				Application.DoEvents();
 			}
 
-			this.FirstPlaybackStart = true;
+			this.FirstPlaybackStarted = false;
 			this.LoadMediaAndPlay(item.PathOrUrlReplaced);
 			base.ShowTrayForm(item);
 			this.UpdateTitle();
@@ -228,6 +236,7 @@ namespace Traything.UI
 			this.VlcVideoView.MediaPlayer.Stop();
 			this.TimerUpdatePlayProgress.Stop();
 			this.ContextMenuStripPlaylist.Items.Clear();
+			this.Mute_On = false;
 		}
 
 		private void ButtonPlayPause_Click(object sender, EventArgs e)
@@ -360,7 +369,7 @@ namespace Traything.UI
 
 		private void ToolStripMenuItemToggleMute_Click(object sender, EventArgs e)
 		{
-			this.VlcVideoView.MediaPlayer.Mute = !this.VlcVideoView.MediaPlayer.Mute;
+			this.ToggleMute();
 		}
 
 		private void ToolStripMenuItemClose_Click(object sender, EventArgs e)
@@ -400,6 +409,23 @@ namespace Traything.UI
 			}
 
 			Cursor.Current = Cursors.Default;
+		}
+
+		private bool Mute_On = false;
+		private int Mute_SavedAudioTrackIndex;
+		private void ToggleMute()
+		{
+			if (this.Mute_On) // Unmute
+			{
+				this.VlcVideoView.MediaPlayer.SetAudioTrack(this.Mute_SavedAudioTrackIndex);
+			}
+			else // Mute
+			{
+				this.Mute_SavedAudioTrackIndex = this.VlcVideoView.MediaPlayer.AudioTrack;
+				this.VlcVideoView.MediaPlayer.SetAudioTrack(-1);
+			}
+
+			this.Mute_On = !this.Mute_On;
 		}
 	}
 }
