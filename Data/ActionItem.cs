@@ -47,11 +47,11 @@ namespace Traything.Data
 		public string PathOrUrl { get; set; }
 
 		[Category("TrayWindow"), Display(Order = 310)]
-		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, the width of the window")]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, the width of the window (can be set to -1 to use the screen width)")]
 		public int Width { get; set; } = 770;
 
 		[Category("TrayWindow"), Display(Order = 320)]
-		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, the height of the window")]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, the height of the window (can be set to -1 to use the screen height)")]
 		public int Height { get; set; } = 500;
 
 		[Category("TrayWindow"), Display(Order = 330)]

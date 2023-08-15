@@ -23,13 +23,40 @@ namespace Traything.UI
 		protected new FrmMain Parent;
 		protected ActionItem ActionItem;
 		protected bool Ready = false;
+		private const int EXTRA_NEGATIVE_PADDING = 7; // Returned Taskbar/Form sizes/bounds include margins (or something like that), make it overall a little tighter
 
-		private void SetDefaultTrayLocationLocation()
+		private void SetDefaultTrayLocation()
 		{
 			if (this.ActionItem != null)
 			{
-				this.Width = this.ActionItem.Width;
-				this.Height = this.ActionItem.Height;
+				int width = this.ActionItem.Width, height = this.ActionItem.Height;
+
+				if (width == -1)
+				{
+					width = Screen.PrimaryScreen.Bounds.Width + EXTRA_NEGATIVE_PADDING;
+
+					if (TaskbarHelper.Position == TaskbarPosition.Left || TaskbarHelper.Position == TaskbarPosition.Right)
+					{
+						width -= TaskbarHelper.CurrentBounds.Width - EXTRA_NEGATIVE_PADDING;
+					}
+					else // Bottom or Top
+					{
+						width += EXTRA_NEGATIVE_PADDING;
+					}
+				}
+
+				if (height == -1)
+				{
+					height = Screen.PrimaryScreen.Bounds.Height + EXTRA_NEGATIVE_PADDING;
+
+					if (TaskbarHelper.Position == TaskbarPosition.Bottom || TaskbarHelper.Position == TaskbarPosition.Top)
+					{
+						height -= TaskbarHelper.CurrentBounds.Height;
+					}
+				}
+
+				this.Width = width;
+				this.Height = height;
 
 				this.ShowInTaskbar = this.ActionItem.StayOpen;
 			}
@@ -46,32 +73,32 @@ namespace Traything.UI
 				x = Screen.PrimaryScreen.Bounds.Left;
 				y = Screen.PrimaryScreen.Bounds.Bottom;
 
-				x += TaskbarHelper.DisplayBounds.Width;
-				y -= this.Height;
+				x += TaskbarHelper.CurrentBounds.Width - EXTRA_NEGATIVE_PADDING;
+				y -= this.Height - EXTRA_NEGATIVE_PADDING;
 			}
 			else if (TaskbarHelper.Position == TaskbarPosition.Right)
 			{
 				x = Screen.PrimaryScreen.Bounds.Right;
 				y = Screen.PrimaryScreen.Bounds.Bottom;
 
-				x += TaskbarHelper.DisplayBounds.Width;
-				y -= this.Height;
+				x -= this.Width + TaskbarHelper.CurrentBounds.Width - EXTRA_NEGATIVE_PADDING;
+				y -= this.Height - EXTRA_NEGATIVE_PADDING;
 			}
 			else if (TaskbarHelper.Position == TaskbarPosition.Top)
 			{
 				x = Screen.PrimaryScreen.Bounds.Right;
 				y = Screen.PrimaryScreen.Bounds.Top;
 
-				x -= this.Width;
-				y -= this.Height + TaskbarHelper.DisplayBounds.Height;
+				x -= this.Width - EXTRA_NEGATIVE_PADDING;
+				y += TaskbarHelper.CurrentBounds.Height;
 			}
 			else // Bottom (Windows default)
 			{
 				x = Screen.PrimaryScreen.Bounds.Right;
 				y = Screen.PrimaryScreen.Bounds.Bottom;
 
-				x -= this.Width;
-				y -= this.Height + TaskbarHelper.DisplayBounds.Height;
+				x -= this.Width - EXTRA_NEGATIVE_PADDING;
+				y -= this.Height + TaskbarHelper.CurrentBounds.Height - EXTRA_NEGATIVE_PADDING;
 			}
 
 			return new Point(x, y);
@@ -97,9 +124,14 @@ namespace Traything.UI
 				this.FormBorderStyle = FormBorderStyle.None;
 			}
 
-			this.SetDefaultTrayLocationLocation();
+			this.SetDefaultTrayLocation();
 			this.Show();
 			this.Activate();
+
+			if (this.ActionItem.Width == -1 && this.ActionItem.Height == -1)
+			{
+				this.WindowState = FormWindowState.Maximized; // Needs to happen here / only has an effect while the window is visible
+			}
 		}
 
 		private void BaseTrayForm_FormClosing(object sender, FormClosingEventArgs e)
