@@ -118,7 +118,7 @@ namespace Traything.UI
             this.ContextMenuStripPlaylist.Name = "ContextMenuStripPlaylist";
             this.ContextMenuStripPlaylist.ShowImageMargin = false;
             this.ContextMenuStripPlaylist.ShowItemToolTips = false;
-            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(156, 26);
+            this.ContextMenuStripPlaylist.Size = new System.Drawing.Size(36, 4);
             this.ContextMenuStripPlaylist.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripPlaylist_Opening);
             this.ContextMenuStripPlaylist.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ContextMenuStripPlaylist_ItemClicked);
             // 
@@ -155,7 +155,7 @@ namespace Traything.UI
             // 
             // TimerUpdatePlayProgress
             // 
-            this.TimerUpdatePlayProgress.Interval = 1000;
+            this.TimerUpdatePlayProgress.Interval = 500;
             this.TimerUpdatePlayProgress.Tick += new System.EventHandler(this.TimerUpdatePlayProgress_Tick);
             // 
             // ContextMenuStripVlcPlayerOverlayPanel

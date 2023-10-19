@@ -84,7 +84,7 @@ namespace Traything.UI
 			// Single click handling
 			if (e.Button == MouseButtons.Left && this.ButtonPlayPause.Enabled)
 			{
-				this.ButtonPlayPause.PerformClick();
+				this.VlcVideoView.MediaPlayer.Pause();
 			}
 		}
 
@@ -250,7 +250,11 @@ namespace Traything.UI
 			int totalSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Length / 1000);
 			if (currentSeconds < totalSeconds)
 			{
-				this.TrackBarPlayProgress.Maximum = totalSeconds;
+				if (this.TrackBarPlayProgress.Maximum != totalSeconds)
+				{
+					this.TrackBarPlayProgress.Maximum = totalSeconds;
+				}
+
 				this.TrackBarPlayProgress.Value = currentSeconds;
 				this.TrackBarPlayProgress.Enabled = true;
 				this.ButtonPlayPause.Enabled = this.VlcVideoView.MediaPlayer.CanPause;
