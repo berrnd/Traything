@@ -26,6 +26,10 @@ namespace Traything.Data
 		[Description("Don't show an error message when the action fails")]
 		public bool IgnoreErrors { get; set; } = false;
 
+		[Category("Common"), Display(Order = 60)]
+		[Description("Whether to execute this action automatically when Traything starts")]
+		public bool Autostart { get; set; } = false;
+
 		[Category("StartApplication"), Display(Order = 100)]
 		[Description("When Type = StartApplication, the commandline to be executed")]
 		public string Commandline { get; set; }

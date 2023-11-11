@@ -34,6 +34,7 @@ namespace Traything.UI
 		{
 			this.Hide();
 			this.Reload();
+			this.ExecuteAutostartActions();
 
 			if (File.Exists(Settings._Path))
 			{
@@ -157,6 +158,14 @@ namespace Traything.UI
 						this.Players.Remove(player);
 					}
 				}
+			}
+		}
+
+		private void ExecuteAutostartActions()
+		{
+			foreach (ActionItem item in this.Settings.Actions.FindAll(x => x.Autostart && (x.Scope == ActionScope.Global || (x.Scope == ActionScope.ThisComputer && x.Hostnames.Any(y => y.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase))))))
+			{
+				this.ExecuteAction(item);
 			}
 		}
 
