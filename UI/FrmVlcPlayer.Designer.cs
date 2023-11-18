@@ -38,7 +38,6 @@ namespace Traything.UI
             this.ProgressBarBusy = new System.Windows.Forms.ProgressBar();
             this.TrackBarPlayProgress = new System.Windows.Forms.TrackBar();
             this.LabelPlayTime = new System.Windows.Forms.Label();
-            this.TimerUpdatePlayProgress = new System.Windows.Forms.Timer(this.components);
             this.ContextMenuStripVlcPlayerOverlayPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemToggleFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemToggleMute = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,11 +152,6 @@ namespace Traything.UI
             this.LabelPlayTime.Text = "LabelPlayTime";
             this.LabelPlayTime.Visible = false;
             // 
-            // TimerUpdatePlayProgress
-            // 
-            this.TimerUpdatePlayProgress.Interval = 500;
-            this.TimerUpdatePlayProgress.Tick += new System.EventHandler(this.TimerUpdatePlayProgress_Tick);
-            // 
             // ContextMenuStripVlcPlayerOverlayPanel
             // 
             this.ContextMenuStripVlcPlayerOverlayPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -222,7 +216,6 @@ namespace Traything.UI
         private System.Windows.Forms.Button ButtonPlayPause;
         private System.Windows.Forms.ProgressBar ProgressBarBusy;
         private System.Windows.Forms.Label LabelPlayTime;
-        private System.Windows.Forms.Timer TimerUpdatePlayProgress;
         private System.Windows.Forms.TrackBar TrackBarPlayProgress;
         private System.Windows.Forms.Panel PanelVlcPlayerContainer;
         private System.Windows.Forms.Button ButtonPlaylistNext;
