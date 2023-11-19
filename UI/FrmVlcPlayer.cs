@@ -40,7 +40,6 @@ namespace Traything.UI
 			this.VlcVideoView.MediaPlayer.Paused += MediaPlayer_Paused;
 			this.VlcVideoView.MediaPlayer.EndReached += MediaPlayer_EndReached;
 			this.VlcVideoView.MediaPlayer.Buffering += MediaPlayer_Buffering;
-			this.VlcVideoView.MediaPlayer.PositionChanged += MediaPlayer_PositionChanged;
 
 			this.VlcVideoView.Dock = DockStyle.Fill;
 			this.PanelVlcPlayerContainer.Controls.Add(this.VlcVideoView);
@@ -110,6 +109,8 @@ namespace Traything.UI
 
 		private void MediaPlayer_EndReached(object sender, EventArgs e)
 		{
+			this.TimerUpdatePlayProgress.Stop();
+
 			this.BeginInvoke(new Action(() =>
 			{
 				this.ButtonPlayPause.Text = "Play";
@@ -134,43 +135,6 @@ namespace Traything.UI
 				{
 					this.ToggleMute();
 				}
-			}
-		}
-
-		private void MediaPlayer_PositionChanged(object sender, MediaPlayerPositionChangedEventArgs e)
-		{
-			int currentSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Time / 1000);
-			int totalSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Length / 1000);
-			if (currentSeconds < totalSeconds)
-			{
-				if (this.TrackBarPlayProgress.Maximum != totalSeconds)
-				{
-					this.BeginInvoke(new Action(() =>
-					{
-						this.TrackBarPlayProgress.Maximum = totalSeconds;
-					}));
-				}
-
-				this.BeginInvoke(new Action(() =>
-				{
-					this.TrackBarPlayProgress.Value = currentSeconds;
-					this.TrackBarPlayProgress.Enabled = true;
-					this.ActiveControl = null;
-					this.ButtonPlayPause.Enabled = this.VlcVideoView.MediaPlayer.CanPause;
-
-					this.LabelPlayTime.Text = $"{TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Time):hh\\:mm\\:ss} / {TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Length):hh\\:mm\\:ss}";
-				}));
-			}
-			else
-			{
-				// Some (live) streams report invalid total length values
-				this.BeginInvoke(new Action(() =>
-				{
-					this.TrackBarPlayProgress.Enabled = false;
-					this.ButtonPlayPause.Enabled = false;
-
-					this.LabelPlayTime.Text = $"Live / {TimeSpan.FromTicks((DateTime.Now.Subtract(this.PlaybackStartTime)).Ticks):hh\\:mm\\:ss}";
-				}));
 			}
 		}
 
@@ -236,6 +200,7 @@ namespace Traything.UI
 				this.LabelPlayTime.Text = "";
 				this.TrackBarPlayProgress.Visible = false;
 				this.ButtonPlayPause.Enabled = false;
+				this.TimerUpdatePlayProgress.Start();
 			}));
 
 			this.PlaybackStartTime = DateTime.Now;
@@ -269,6 +234,7 @@ namespace Traything.UI
 			}
 
 			this.VlcVideoView.MediaPlayer.Stop();
+			this.TimerUpdatePlayProgress.Stop();
 			this.ContextMenuStripPlaylist.Items.Clear();
 			this.Mute_On = false;
 		}
@@ -278,9 +244,36 @@ namespace Traything.UI
 			this.VlcVideoView.MediaPlayer.Pause();
 		}
 
+		private void TimerUpdatePlayProgress_Tick(object sender, EventArgs e)
+		{
+			int currentSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Time / 1000);
+			int totalSeconds = Convert.ToInt32(this.VlcVideoView.MediaPlayer.Length / 1000);
+			if (currentSeconds < totalSeconds)
+			{
+				if (this.TrackBarPlayProgress.Maximum != totalSeconds)
+				{
+					this.TrackBarPlayProgress.Maximum = totalSeconds;
+				}
+
+				this.TrackBarPlayProgress.Value = currentSeconds;
+				this.TrackBarPlayProgress.Enabled = true;
+				this.ButtonPlayPause.Enabled = this.VlcVideoView.MediaPlayer.CanPause;
+
+				this.LabelPlayTime.Text = $"{TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Time):hh\\:mm\\:ss} / {TimeSpan.FromMilliseconds(this.VlcVideoView.MediaPlayer.Length):hh\\:mm\\:ss}";
+			}
+			else
+			{
+				// Some (live) streams report invalid total length values
+				this.TrackBarPlayProgress.Enabled = false;
+				this.ButtonPlayPause.Enabled = false;
+
+				this.LabelPlayTime.Text = $"Live / {TimeSpan.FromTicks((DateTime.Now.Subtract(this.PlaybackStartTime)).Ticks):hh\\:mm\\:ss}";
+			}
+		}
+
 		private void TrackBarPlayProgress_Scroll(object sender, EventArgs e)
 		{
-			this.VlcVideoView.MediaPlayer.Time = this.TrackBarPlayProgress.Value * 1000;
+			this.VlcVideoView.MediaPlayer.SeekTo(TimeSpan.FromSeconds(this.TrackBarPlayProgress.Value));
 		}
 
 		private Task VlcDlgUpdateProgress(Dialog dialog, float position, string text)
