@@ -96,6 +96,7 @@ namespace Traything.UI
 				this.ProgressBarBusy.Visible = false;
 				this.LabelPlayTime.Visible = true;
 				this.TrackBarPlayProgress.Visible = true;
+				this.FlowLayoutPanelPlayerControls_SizeChanged(sender, e);
 			}));
 		}
 
@@ -430,6 +431,31 @@ namespace Traything.UI
 			}
 
 			this.Mute_On = !this.Mute_On;
+		}
+
+		private void FlowLayoutPanelPlayerControls_SizeChanged(object sender, EventArgs e)
+		{
+			this.FlowLayoutPanelPlayerControls.SuspendLayout();
+
+			// Make the TrackBarPlayProgress use the entire left over window width
+			int width = this.FlowLayoutPanelPlayerControls.Width;
+			{
+				foreach (Control item in this.FlowLayoutPanelPlayerControls.Controls)
+				{
+					if (!(item is TrackBar) && item.Visible)
+					{
+						width -= (item.Width + item.Margin.Left + item.Margin.Right);
+					}
+				}
+			}
+			this.TrackBarPlayProgress.Width = (width - this.TrackBarPlayProgress.Margin.Left - this.TrackBarPlayProgress.Margin.Right - 3);
+
+			this.FlowLayoutPanelPlayerControls.ResumeLayout();
+		}
+
+		private void LabelPlayTime_SizeChanged(object sender, EventArgs e)
+		{
+			this.FlowLayoutPanelPlayerControls_SizeChanged(sender, e);
 		}
 	}
 }
