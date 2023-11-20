@@ -439,13 +439,11 @@ namespace Traything.UI
 
 			// Make the TrackBarPlayProgress use the entire left over window width
 			int width = this.FlowLayoutPanelPlayerControls.Width;
+			foreach (Control item in this.FlowLayoutPanelPlayerControls.Controls)
 			{
-				foreach (Control item in this.FlowLayoutPanelPlayerControls.Controls)
+				if (!(item is TrackBar) && item.Visible)
 				{
-					if (!(item is TrackBar) && item.Visible)
-					{
-						width -= (item.Width + item.Margin.Left + item.Margin.Right);
-					}
+					width -= (item.Width + item.Margin.Left + item.Margin.Right);
 				}
 			}
 			this.TrackBarPlayProgress.Width = (width - this.TrackBarPlayProgress.Margin.Left - this.TrackBarPlayProgress.Margin.Right - 3);
