@@ -446,7 +446,7 @@ namespace Traything.UI
 					width -= (item.Width + item.Margin.Left + item.Margin.Right);
 				}
 			}
-			this.TrackBarPlayProgress.Width = (width - this.TrackBarPlayProgress.Margin.Left - this.TrackBarPlayProgress.Margin.Right - 3);
+			this.TrackBarPlayProgress.Width = (width - this.TrackBarPlayProgress.Margin.Left - this.TrackBarPlayProgress.Margin.Right);
 
 			this.FlowLayoutPanelPlayerControls.ResumeLayout();
 		}
