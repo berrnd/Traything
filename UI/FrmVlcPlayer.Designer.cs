@@ -89,7 +89,6 @@ namespace Traything.UI
             this.FlowLayoutPanelPlayerControls.Name = "FlowLayoutPanelPlayerControls";
             this.FlowLayoutPanelPlayerControls.Size = new System.Drawing.Size(778, 30);
             this.FlowLayoutPanelPlayerControls.TabIndex = 0;
-            this.FlowLayoutPanelPlayerControls.SizeChanged += new System.EventHandler(this.FlowLayoutPanelPlayerControls_SizeChanged);
             // 
             // ButtonPlayPause
             // 
@@ -153,7 +152,6 @@ namespace Traything.UI
             this.LabelPlayTime.TabIndex = 2;
             this.LabelPlayTime.Text = "LabelPlayTime";
             this.LabelPlayTime.Visible = false;
-            this.LabelPlayTime.SizeChanged += new System.EventHandler(this.LabelPlayTime_SizeChanged);
             // 
             // TimerUpdatePlayProgress
             // 
