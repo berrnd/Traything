@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using Traything.Data;
 
@@ -179,7 +180,6 @@ namespace Traything.UI
 			try
 			{
 				item.PathOrUrlReplaced = item.PathOrUrl;
-
 				if (item.PathOrUrlReplaced != null && item.PathOrUrlReplaced.Contains("{QUERYSTRING"))
 				{
 					foreach (Match placeholder in Regex.Matches(item.PathOrUrlReplaced, "{(.*?)}"))
@@ -195,6 +195,31 @@ namespace Traything.UI
 							if (dialog.ShowDialog(this) == DialogResult.OK)
 							{
 								item.PathOrUrlReplaced = item.PathOrUrlReplaced.Replace(placeholder.Value, dialog.QueryString);
+							}
+							else
+							{
+								return;
+							}
+						}
+					}
+				}
+
+				item.UrlReplaced = item.Url;
+				if (item.UrlReplaced != null && item.UrlReplaced.Contains("{QUERYSTRING"))
+				{
+					foreach (Match placeholder in Regex.Matches(item.UrlReplaced, "{(.*?)}"))
+					{
+						string prompt = "Enter placeholder value";
+						if (placeholder.Groups[1].Value.Contains(":"))
+						{
+							prompt += $" ({placeholder.Groups[1].Value.Split(':')[1]})";
+						}
+
+						using (FrmQueryString dialog = new FrmQueryString(item, prompt))
+						{
+							if (dialog.ShowDialog(this) == DialogResult.OK)
+							{
+								item.UrlReplaced = item.UrlReplaced.Replace(placeholder.Value, HttpUtility.UrlEncode(dialog.QueryString));
 							}
 							else
 							{
@@ -238,7 +263,7 @@ namespace Traything.UI
 					{
 						wc.Headers.Add(header);
 					}
-					wc.DownloadString(item.Url);
+					wc.DownloadString(item.UrlReplaced);
 				}
 				else if (item.Type == ActionType.HttpPostRequest)
 				{
@@ -247,7 +272,7 @@ namespace Traything.UI
 					{
 						wc.Headers.Add(header);
 					}
-					wc.UploadString(item.Url, item.PostData);
+					wc.UploadString(item.UrlReplaced, item.PostData);
 				}
 				else if (item.Type == ActionType.ShowTrayBrowser)
 				{

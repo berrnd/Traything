@@ -35,7 +35,7 @@ namespace Traything.Data
 		public string Commandline { get; set; }
 
 		[Category("HttpRequest"), Display(Order = 200)]
-		[Description("When Type = HttpGetRequest or HttpPostRequest, the URL used for the web request")]
+		[Description("When Type = HttpGetRequest or HttpPostRequest, the URL used for the web request (can contain \"{QUERYSTRING[:<OptionalName>]}\" for on-demand placeholders, the replaced value will be URL encoded)")]
 		public string Url { get; set; }
 
 		[Category("HttpRequest"), Display(Order = 210)]
@@ -80,6 +80,10 @@ namespace Traything.Data
 
 		[Browsable(false)]
 		public double BrowserZoomLevel { get; set; } = 0;
+
+		[XmlIgnore]
+		[Browsable(false)]
+		public string UrlReplaced { get; set; }
 
 		[XmlIgnore]
 		[Browsable(false)]
