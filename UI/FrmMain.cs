@@ -187,7 +187,7 @@ namespace Traything.UI
 						string prompt = "Enter placeholder value";
 						if (placeholder.Groups[1].Value.Contains(":"))
 						{
-							prompt += $" ({placeholder.Groups[1].Value.Split(':')[1]})";
+							prompt = placeholder.Groups[1].Value.Split(':')[1];
 						}
 
 						using (FrmQueryString dialog = new FrmQueryString(item, prompt))
@@ -212,7 +212,7 @@ namespace Traything.UI
 						string prompt = "Enter placeholder value";
 						if (placeholder.Groups[1].Value.Contains(":"))
 						{
-							prompt += $" ({placeholder.Groups[1].Value.Split(':')[1]})";
+							prompt = placeholder.Groups[1].Value.Split(':')[1];
 						}
 
 						using (FrmQueryString dialog = new FrmQueryString(item, prompt))

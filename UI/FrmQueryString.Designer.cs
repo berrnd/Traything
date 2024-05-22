@@ -28,6 +28,7 @@ namespace Traything.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmQueryString));
             this.TextBoxString = new System.Windows.Forms.TextBox();
             this.ButtonOk = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
@@ -83,8 +84,8 @@ namespace Traything.UI
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.TextBoxString);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmQueryString";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmQueryString";
             this.Shown += new System.EventHandler(this.FrmQueryString_Shown);
