@@ -1,6 +1,9 @@
+-----
+
 <div align="center">
-<img alt="Logo" height="60" src="https://raw.githubusercontent.com/berrnd/Traything/main/logo.svg?sanitize=true" />
-<h3>A simple but practical (Windows) tray web browser, media / stream player and program launcher.<br>Created by <a href="https://github.com/berrnd">@berrnd</a></h3>
+<img alt="Logo" height="50" src="https://raw.githubusercontent.com/berrnd/Traything/main/logo.svg?sanitize=true" />
+<h2>A simple but practical (Windows) tray web browser, media / stream player and program launcher</h2>
+<em><h4>This is a hobby project by <a href="https://berrnd.de">Bernd Bestel</a></h4></em>
 </div>
 
 -----
