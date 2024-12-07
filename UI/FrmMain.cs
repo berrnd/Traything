@@ -56,14 +56,14 @@ namespace Traything.UI
 
 		private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (Control.ModifierKeys == Keys.Shift)
-			{
-				this.Shutdown();
-			}
-			else
+			if (Control.ModifierKeys == Keys.None)
 			{
 				e.Cancel = true;
 				this.Hide();
+			}
+			else
+			{
+				this.Shutdown();
 			}
 		}
 
