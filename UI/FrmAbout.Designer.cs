@@ -52,7 +52,8 @@ namespace Traything.UI
             this.LabelFooter.Name = "LabelFooter";
             this.LabelFooter.Size = new System.Drawing.Size(241, 45);
             this.LabelFooter.TabIndex = 1;
-            this.LabelFooter.Text = "Traything is project by Bernd Bestel\r\nCreated with passion since 2022";
+            this.LabelFooter.Text = "Traything is a hobby project by Bernd Bestel\r\nCreated with passion since 2022\r\nLi" +
+    "fe runs on code";
             this.LabelFooter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelVersion
