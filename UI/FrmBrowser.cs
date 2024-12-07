@@ -22,7 +22,7 @@ namespace Traything.UI
 
 		private void SetupCef()
 		{
-			if (!Cef.IsInitialized)
+			if (!Cef.IsInitialized.GetValueOrDefault(false))
 			{
 				CefSettings cefSettings = new CefSettings();
 				cefSettings.BrowserSubprocessPath = Path.Combine(Program.BaseExecutingPath, @"CefSharp.BrowserSubprocess.exe");
