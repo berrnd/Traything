@@ -210,6 +210,10 @@ namespace Traything.UI
 						}
 					}
 				}
+				if (item.PathOrUrlReplaced != null && item.PathOrUrlReplaced.Contains("{CLIPBOARD}") && Clipboard.ContainsText())
+				{
+					item.PathOrUrlReplaced = item.PathOrUrlReplaced.Replace("{CLIPBOARD}", Clipboard.GetText());
+				}
 
 				item.UrlReplaced = item.Url;
 				if (item.UrlReplaced != null && item.UrlReplaced.Contains("{QUERYSTRING"))
@@ -234,6 +238,10 @@ namespace Traything.UI
 							}
 						}
 					}
+				}
+				if (item.UrlReplaced != null && item.UrlReplaced.Contains("{CLIPBOARD}") && Clipboard.ContainsText())
+				{
+					item.UrlReplaced = item.UrlReplaced.Replace("{CLIPBOARD}", HttpUtility.UrlEncode(Clipboard.GetText()));
 				}
 
 				if (item.Type == ActionType.CloseTraything)

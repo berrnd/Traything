@@ -35,7 +35,7 @@ namespace Traything.Data
 		public string Commandline { get; set; }
 
 		[Category("HttpRequest"), Display(Order = 200)]
-		[Description("When Type = HttpGetRequest or HttpPostRequest, the URL used for the web request (can contain \"{QUERYSTRING[:<OptionalName>]}\" for on-demand placeholders, the replaced value will be URL encoded)")]
+		[Description("When Type = HttpGetRequest or HttpPostRequest, the URL used for the web request (can contain \"{QUERYSTRING[:<OptionalName>]}\" for on-demand placeholders or \"{CLIPBOARD}\" for referencing text contents of the clipboard, the replaced value will be URL encoded)")]
 		public string Url { get; set; }
 
 		[Category("HttpRequest"), Display(Order = 210)]
@@ -47,7 +47,7 @@ namespace Traything.Data
 		public BindingList<string> Headers { get; private set; } = new BindingList<string>();
 
 		[Category("TrayWindow"), Display(Order = 210)]
-		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened (can contain \"{QUERYSTRING[:<OptionalName>]}\" for on-demand placeholders)")]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, a local path or URL to be opened (can contain \"{QUERYSTRING[:<OptionalName>]}\" for on-demand placeholders or \"{CLIPBOARD}\" for referencing text contents of the clipboard)")]
 		public string PathOrUrl { get; set; }
 
 		[Category("TrayWindow"), Display(Order = 310)]
