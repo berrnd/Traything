@@ -182,7 +182,7 @@ namespace Traything.UI
 			this.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
 		}
 
-		private void ExecuteAction(ActionItem item)
+		internal void ExecuteAction(ActionItem item)
 		{
 			try
 			{
@@ -275,11 +275,11 @@ namespace Traything.UI
 				}
 				else if (item.Type == ActionType.ShowTrayBrowser)
 				{
-					this.GetAvailableBrowser().ShowTrayForm(item);
+					this.GetAvailableBrowser().ShowTrayForm(item, this.Settings.Actions.FindAll(x => item.InplaceActions.Contains(x.Id.ToString())));
 				}
 				else if (item.Type == ActionType.ShowTrayMediaPlayer)
 				{
-					this.GetAvailableVlcPlayer().ShowTrayForm(item);
+					this.GetAvailableVlcPlayer().ShowTrayForm(item, this.Settings.Actions.FindAll(x => item.InplaceActions.Contains(x.Id.ToString())));
 				}
 			}
 			catch (Exception ex)

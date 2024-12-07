@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Traything.Data;
@@ -110,7 +111,7 @@ namespace Traything.UI
 			this.Ready = true;
 		}
 
-		public virtual void ShowTrayForm(ActionItem item)
+		public virtual void ShowTrayForm(ActionItem item, List<ActionItem> inplaceActions)
 		{
 			this.ActionItem = item;
 			this.Text = item.Name;

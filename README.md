@@ -50,7 +50,7 @@ There is none. The progress of a specific bug/enhancement is always tracked in t
 
 ![edit-item](https://github.com/berrnd/Traything/raw/main/.github/publication_assets/edit-item.png "edit-item")
 
-![actions](https://github.com/berrnd/Traything/raw/main/.github/publication_assets/actions.gif "actions")
+https://github.com/berrnd/Traything/raw/main/.github/publication_assets/live-example.mp4
 
 ## How to build
 

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
@@ -6,6 +7,11 @@ namespace Traything.Data
 {
 	public class ActionItem
 	{
+		[Category("Common"), Display(Order = 0)]
+		[ReadOnly(true)]
+		[Description("The id of this action (read-only), maybe used for references elsewhere")]
+		public Guid Id { get; set; } = Guid.NewGuid();
+
 		[Category("Common"), Display(Order = 10)]
 		[Description("The name of the menu item")]
 		public string Name { get; set; }
@@ -65,6 +71,10 @@ namespace Traything.Data
 		[Category("TrayWindow"), Display(Order = 340)]
 		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, whether to start in fullscreen mode")]
 		public bool StartFullscreen { get; set; } = false;
+
+		[Category("TrayWindow"), Display(Order = 350)]
+		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, id's of actions to be displayed in the window context menu")]
+		public BindingList<string> InplaceActions { get; set; } = new BindingList<string>();
 
 		[Category("TrayMediaPlayer"), Display(Order = 400)]
 		[Description("When Type = ShowTrayMediaPlayer, whether to mute audio on start")]

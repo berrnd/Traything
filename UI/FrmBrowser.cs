@@ -1,6 +1,7 @@
 using CefSharp;
 using CefSharp.WinForms;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -19,6 +20,7 @@ namespace Traything.UI
 		}
 
 		private ChromiumWebBrowser Browser;
+		internal Dictionary<int, ActionItem> InplaceActions = new Dictionary<int, ActionItem>();
 
 		private void SetupCef()
 		{
@@ -56,7 +58,7 @@ namespace Traything.UI
 			this.SetupCef();
 		}
 
-		public override void ShowTrayForm(ActionItem item)
+		public override void ShowTrayForm(ActionItem item, List<ActionItem> inplaceActions)
 		{
 			while (!this.Ready)
 			{
@@ -64,11 +66,27 @@ namespace Traything.UI
 			}
 
 			this.Browser.Load(item.PathOrUrlReplaced);
-			base.ShowTrayForm(item);
+			base.ShowTrayForm(item, inplaceActions);
 
 			if (item.StartFullscreen)
 			{
 				this.ToggleFullscreen();
+			}
+
+			if (inplaceActions != null && inplaceActions.Count > 0)
+			{
+				// Max. 98 items (26601 to 26699)
+				int commandId = 26601;
+				foreach (ActionItem action in inplaceActions)
+				{
+					this.InplaceActions.Add(commandId, action);
+					commandId++;
+
+					if (commandId >= 26699)
+					{
+						break;
+					}
+				}
 			}
 		}
 
@@ -87,6 +105,7 @@ namespace Traything.UI
 			}
 
 			this.Browser.Load("about:blank");
+			this.InplaceActions.Clear();
 
 			if (this.Fullscreen_On)
 			{
@@ -117,23 +136,41 @@ namespace Traything.UI
 
 			this.Fullscreen_On = !this.Fullscreen_On;
 		}
+
+		private void InplaceActionMenuItem_Click(object sender, EventArgs e)
+		{
+			Program.MainForm.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
+		}
 	}
 
 	public class BrowserContextMenuHandler : IContextMenuHandler
 	{
 		public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
 		{
+			ChromiumWebBrowser chromiumBrowser = browserControl as ChromiumWebBrowser;
+			FrmBrowser parentForm = chromiumBrowser.Tag as FrmBrowser;
+
 			model.Clear();
 
 			model.AddItem((CefMenuCommand)26501, browser.MainFrame.Url);
 			model.AddSeparator();
+			model.AddItem((CefMenuCommand)26511, "Toggle fullscreen mode");
+			model.AddSeparator();
 			model.AddItem((CefMenuCommand)26521, "Zoom In");
 			model.AddItem((CefMenuCommand)26522, "Zoom Out");
 			model.AddItem((CefMenuCommand)26523, "Zoom Reset");
+
+			if (parentForm.InplaceActions.Count > 0)
+			{
+				model.AddSeparator();
+				foreach (KeyValuePair<int, ActionItem> item in parentForm.InplaceActions)
+				{
+					model.AddItem((CefMenuCommand)item.Key, item.Value.Name);
+				}
+			}
+
 			model.AddSeparator();
-			model.AddItem((CefMenuCommand)26531, "Toggle fullscreen mode");
-			model.AddSeparator();
-			model.AddItem((CefMenuCommand)26541, "Close");
+			model.AddItem((CefMenuCommand)26531, "Close");
 
 		}
 
@@ -149,7 +186,6 @@ namespace Traything.UI
 
 				return true;
 			}
-
 
 			// Zoom In
 			if (commandId == (CefMenuCommand)26521)
@@ -181,7 +217,7 @@ namespace Traything.UI
 			}
 
 			// Toggle fullscreen mode
-			if (commandId == (CefMenuCommand)26531)
+			if (commandId == (CefMenuCommand)26511)
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{
@@ -192,7 +228,7 @@ namespace Traything.UI
 			}
 
 			// Close
-			if (commandId == (CefMenuCommand)26541)
+			if (commandId == (CefMenuCommand)26531)
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{
@@ -200,6 +236,15 @@ namespace Traything.UI
 				}));
 
 				return true;
+			}
+
+			// Inplace action
+			if (commandId >= (CefMenuCommand)26601 && commandId <= (CefMenuCommand)26699)
+			{
+				parentForm.BeginInvoke(new Action(() =>
+				{
+					Program.MainForm.ExecuteAction(parentForm.InplaceActions[(int)commandId]);
+				}));
 			}
 
 			return false;

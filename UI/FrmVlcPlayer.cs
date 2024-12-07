@@ -1,6 +1,7 @@
 using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -143,7 +144,7 @@ namespace Traything.UI
 			this.SetupVlc();
 		}
 
-		public override void ShowTrayForm(ActionItem item)
+		public override void ShowTrayForm(ActionItem item, List<ActionItem> inplaceActions)
 		{
 			while (!this.Ready)
 			{
@@ -152,7 +153,7 @@ namespace Traything.UI
 
 			this.FirstPlaybackStarted = false;
 			this.LoadMediaAndPlay(item.PathOrUrlReplaced);
-			base.ShowTrayForm(item);
+			base.ShowTrayForm(item, inplaceActions);
 			this.UpdateTitle();
 
 			if (item.StartFullscreen)
@@ -163,6 +164,21 @@ namespace Traything.UI
 			if (item.StartMinimized)
 			{
 				this.WindowState = FormWindowState.Minimized;
+			}
+
+			if (inplaceActions != null && inplaceActions.Count > 0)
+			{
+				this.ToolStripSeparatorInplaceActions.Visible = true;
+
+				int i = 1;
+				foreach (ActionItem action in inplaceActions)
+				{
+					ToolStripMenuItem menuItem = new ToolStripMenuItem(action.Name);
+					menuItem.Tag = action;
+					menuItem.Click += this.InplaceActionMenuItem_Click;
+					this.ContextMenuStripVlcPlayerOverlayPanel.Items.Insert(this.ContextMenuStripVlcPlayerOverlayPanel.Items.IndexOf(this.ToolStripSeparatorInplaceActions) + i, menuItem);
+					i++;
+				}
 			}
 		}
 
@@ -237,6 +253,23 @@ namespace Traything.UI
 			this.TimerUpdatePlayProgress.Stop();
 			this.ContextMenuStripPlaylist.Items.Clear();
 			this.Mute_On = false;
+			this.ToolStripSeparatorInplaceActions.Visible = false;
+
+			// Clear inplace action context menu items
+			List<ToolStripItem> itemsToRemove = new List<ToolStripItem>(); // Enumeration cannot be changed while it is being enumerated
+			int minIndex = this.ContextMenuStripVlcPlayerOverlayPanel.Items.IndexOf(this.ToolStripSeparatorInplaceActions);
+			int maxIndex = this.ContextMenuStripVlcPlayerOverlayPanel.Items.IndexOf(this.ToolStripSeparatorClose);
+			foreach (ToolStripItem item in this.ContextMenuStripVlcPlayerOverlayPanel.Items)
+			{
+				if (this.ContextMenuStripVlcPlayerOverlayPanel.Items.IndexOf(item) > minIndex && this.ContextMenuStripVlcPlayerOverlayPanel.Items.IndexOf(item) < maxIndex)
+				{
+					itemsToRemove.Add(item);
+				}
+			}
+			foreach (ToolStripItem item in itemsToRemove)
+			{
+				this.ContextMenuStripVlcPlayerOverlayPanel.Items.Remove(item);
+			}
 		}
 
 		private void ButtonPlayPause_Click(object sender, EventArgs e)
@@ -446,6 +479,11 @@ namespace Traything.UI
 				}
 			}
 			this.TrackBarPlayProgress.Width = (remainingWidth - this.TrackBarPlayProgress.Margin.Left - this.TrackBarPlayProgress.Margin.Right);
+		}
+
+		private void InplaceActionMenuItem_Click(object sender, EventArgs e)
+		{
+			Program.MainForm.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
 		}
 	}
 }
