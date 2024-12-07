@@ -121,7 +121,7 @@ namespace Traything.UI
             this.ListBoxActions.ItemHeight = 24;
             this.ListBoxActions.Location = new System.Drawing.Point(12, 41);
             this.ListBoxActions.Name = "ListBoxActions";
-            this.ListBoxActions.Size = new System.Drawing.Size(814, 508);
+            this.ListBoxActions.Size = new System.Drawing.Size(814, 532);
             this.ListBoxActions.TabIndex = 3;
             this.ListBoxActions.SelectedIndexChanged += new System.EventHandler(this.ListBoxActions_SelectedIndexChanged);
             this.ListBoxActions.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxActions_MouseDoubleClick);

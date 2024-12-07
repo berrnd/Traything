@@ -56,8 +56,15 @@ namespace Traything.UI
 
 		private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			e.Cancel = true;
-			this.Hide();
+			if (Control.ModifierKeys == Keys.Shift)
+			{
+				this.Shutdown();
+			}
+			else
+			{
+				e.Cancel = true;
+				this.Hide();
+			}
 		}
 
 		private void NotifyIconTray_MouseClick(object sender, MouseEventArgs e)
@@ -231,23 +238,7 @@ namespace Traything.UI
 
 				if (item.Type == ActionType.CloseTraything)
 				{
-					if (this.Browsers.Count > 0)
-					{
-						foreach (FrmBrowser browser in this.Browsers)
-						{
-							browser.ReallyClose();
-						}
-					}
-					if (this.Players.Count > 0)
-					{
-						foreach (FrmVlcPlayer player in this.Players)
-						{
-							player.ReallyClose();
-						}
-					}
-
-					this.FormClosing -= this.FrmMain_FormClosing;
-					this.Close();
+					this.Shutdown();
 				}
 				else if (item.Type == ActionType.StartApplication)
 				{
@@ -400,6 +391,27 @@ namespace Traything.UI
 		private void ButtonExecute_Click(object sender, EventArgs e)
 		{
 			this.ExecuteAction((ActionItem)this.ListBoxActions.SelectedItem);
+		}
+
+		private void Shutdown()
+		{
+			if (this.Browsers.Count > 0)
+			{
+				foreach (FrmBrowser browser in this.Browsers)
+				{
+					browser.ReallyClose();
+				}
+			}
+			if (this.Players.Count > 0)
+			{
+				foreach (FrmVlcPlayer player in this.Players)
+				{
+					player.ReallyClose();
+				}
+			}
+
+			this.FormClosing -= this.FrmMain_FormClosing;
+			this.Close();
 		}
 	}
 }
