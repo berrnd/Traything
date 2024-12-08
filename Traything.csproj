@@ -79,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ActionItem.cs" />
-    <Compile Include="Data\ActionItemReference.cs" />
     <Compile Include="UI\FrmAbout.cs">
       <SubType>Form</SubType>
     </Compile>

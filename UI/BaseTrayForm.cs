@@ -21,7 +21,7 @@ namespace Traything.UI
 			this.Show();
 		}
 
-		protected new FrmMain Parent;
+		internal new FrmMain Parent;
 		protected ActionItem ActionItem;
 		protected bool Ready = false;
 		private const int EXTRA_NEGATIVE_PADDING = 7; // Returned Taskbar/Form sizes/bounds include margins (or something like that), make it overall a little tighter

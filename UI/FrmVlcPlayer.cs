@@ -483,7 +483,7 @@ namespace Traything.UI
 
 		private void InplaceActionMenuItem_Click(object sender, EventArgs e)
 		{
-			Program.MainForm.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
+			this.Parent.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
 		}
 	}
 }

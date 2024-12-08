@@ -136,11 +136,6 @@ namespace Traything.UI
 
 			this.Fullscreen_On = !this.Fullscreen_On;
 		}
-
-		private void InplaceActionMenuItem_Click(object sender, EventArgs e)
-		{
-			Program.MainForm.ExecuteAction((ActionItem)((ToolStripMenuItem)sender).Tag);
-		}
 	}
 
 	public class BrowserContextMenuHandler : IContextMenuHandler
@@ -243,7 +238,7 @@ namespace Traything.UI
 			{
 				parentForm.BeginInvoke(new Action(() =>
 				{
-					Program.MainForm.ExecuteAction(parentForm.InplaceActions[(int)commandId]);
+					parentForm.Parent.ExecuteAction(parentForm.InplaceActions[(int)commandId]);
 				}));
 			}
 
