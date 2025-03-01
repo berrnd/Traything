@@ -170,10 +170,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>131.2.70</Version>
+      <Version>133.4.21</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp.WinForms">
-      <Version>3.9.1</Version>
+      <Version>3.9.2</Version>
     </PackageReference>
     <PackageReference Include="VideoLAN.LibVLC.Windows">
       <Version>3.0.21</Version>
