@@ -91,6 +91,12 @@
     <Compile Include="UI\FrmEditActionItem.Designer.cs">
       <DependentUpon>FrmEditActionItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FrmLauncher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmLauncher.Designer.cs">
+      <DependentUpon>FrmLauncher.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmEditActionItem.resx">
       <DependentUpon>FrmEditActionItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmLauncher.resx">
+      <DependentUpon>FrmLauncher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

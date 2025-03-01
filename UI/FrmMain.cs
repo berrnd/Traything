@@ -248,6 +248,10 @@ namespace Traything.UI
 				{
 					this.Shutdown();
 				}
+				else if (item.Type == ActionType.ShowTrayLauncher)
+				{
+					new FrmLauncher(this).ShowTrayForm(item, this.Settings.Actions.FindAll(x => x.Type != ActionType.Separator && x.Scope == ActionScope.Global || (x.Scope == ActionScope.ThisComputer && x.Hostnames.Any(y => y.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase)))));
+				}
 				else if (item.Type == ActionType.StartApplication)
 				{
 					ProcessStartInfo si = new ProcessStartInfo("cmd", " /c start \"\" " + item.Commandline);
