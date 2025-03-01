@@ -43,6 +43,11 @@ namespace Traything.UI
 
 				this.FlowLayoutPanelActionButtons.Controls.Add(button);
 			}
+
+			if (item.StartMinimized)
+			{
+				this.WindowState = FormWindowState.Minimized;
+			}
 		}
 
 		private void ActionItemButton_Click(object sender, System.EventArgs e)

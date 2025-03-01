@@ -73,16 +73,16 @@ namespace Traything.Data
 		public bool StartFullscreen { get; set; } = false;
 
 		[Category("TrayWindow"), Display(Order = 350)]
+		[Description("When Type = ShowTrayMediaPlayer or ShowTrayLauncher, whether to start minimized (e.g. for audio only playback)")]
+		public bool StartMinimized { get; set; } = false;
+
+		[Category("TrayWindow"), Display(Order = 360)]
 		[Description("When Type = ShowTrayBrowser or ShowTrayMediaPlayer, id's of actions to be displayed in the window context menu")]
 		public BindingList<string> InplaceActions { get; set; } = new BindingList<string>();
 
 		[Category("TrayMediaPlayer"), Display(Order = 400)]
 		[Description("When Type = ShowTrayMediaPlayer, whether to mute audio on start")]
 		public bool StartMuted { get; set; } = false;
-
-		[Category("TrayMediaPlayer"), Display(Order = 410)]
-		[Description("When Type = ShowTrayMediaPlayer, whether to start minimized (e.g. for audio only playback)")]
-		public bool StartMinimized { get; set; } = false;
 
 		[Category("TrayMediaPlayer"), Display(Order = 420)]
 		[Description("When Type = ShowTrayMediaPlayer, whether to show the media title (if any) in the window title")]

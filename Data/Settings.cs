@@ -67,6 +67,7 @@ namespace Traything.Data
 			s.Actions.Add(new ActionItem { Name = "TrayMediaPlayer (stay open)", Type = ActionType.ShowTrayMediaPlayer, PathOrUrl = "https://traything-demo.berrnd.xyz/stream", StayOpen = true });
 			s.Actions.Add(new ActionItem { Name = "TrayMediaPlayer (auto hide when focus lost)", Type = ActionType.ShowTrayMediaPlayer, PathOrUrl = "https://traything-demo.berrnd.xyz/stream", StayOpen = false });
 			s.Actions.Add(new ActionItem { Name = "----Separator4----", Type = ActionType.Separator });
+			s.Actions.Add(new ActionItem { Name = "Launcher", Type = ActionType.ShowTrayLauncher, Width = 550 });
 			s.Actions.Add(new ActionItem { Name = "Close", Type = ActionType.CloseTraything });
 			return s;
 		}
