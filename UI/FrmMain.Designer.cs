@@ -31,7 +31,7 @@ namespace Traything.UI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.NotifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
-            this.ContextMenuStripTray = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ContextMenuStripTray = new Traything.UI.CustomContextMenuStrip(this.components);
             this.ButtonAdd = new System.Windows.Forms.Button();
             this.ButtonEdit = new System.Windows.Forms.Button();
             this.ButtonRemove = new System.Windows.Forms.Button();
@@ -176,7 +176,7 @@ namespace Traything.UI
         #endregion
 
         private System.Windows.Forms.NotifyIcon NotifyIconTray;
-        private System.Windows.Forms.ContextMenuStrip ContextMenuStripTray;
+        private Traything.UI.CustomContextMenuStrip ContextMenuStripTray;
         private System.Windows.Forms.Button ButtonAdd;
         private System.Windows.Forms.Button ButtonEdit;
         private System.Windows.Forms.Button ButtonRemove;

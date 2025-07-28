@@ -79,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ActionItem.cs" />
+    <Compile Include="UI\CustomContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\FrmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,10 +182,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>133.4.21</Version>
+      <Version>138.0.170</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp.WinForms">
-      <Version>3.9.2</Version>
+      <Version>3.9.3</Version>
     </PackageReference>
     <PackageReference Include="VideoLAN.LibVLC.Windows">
       <Version>3.0.21</Version>

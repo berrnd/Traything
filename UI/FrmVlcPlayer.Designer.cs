@@ -34,12 +34,12 @@ namespace Traything.UI
             this.FlowLayoutPanelPlayerControls = new System.Windows.Forms.FlowLayoutPanel();
             this.ButtonPlayPause = new System.Windows.Forms.Button();
             this.ButtonPlaylistNext = new System.Windows.Forms.Button();
-            this.ContextMenuStripPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ContextMenuStripPlaylist = new Traything.UI.CustomContextMenuStrip(this.components);
             this.ProgressBarBusy = new System.Windows.Forms.ProgressBar();
             this.TrackBarPlayProgress = new System.Windows.Forms.TrackBar();
             this.LabelPlayTime = new System.Windows.Forms.Label();
             this.TimerUpdatePlayProgress = new System.Windows.Forms.Timer(this.components);
-            this.ContextMenuStripVlcPlayerOverlayPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ContextMenuStripVlcPlayerOverlayPanel = new Traything.UI.CustomContextMenuStrip(this.components);
             this.ToolStripMenuItemToggleFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemToggleMute = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparatorInplaceActions = new System.Windows.Forms.ToolStripSeparator();
@@ -234,8 +234,8 @@ namespace Traything.UI
         private System.Windows.Forms.TrackBar TrackBarPlayProgress;
         private System.Windows.Forms.Panel PanelVlcPlayerContainer;
         private System.Windows.Forms.Button ButtonPlaylistNext;
-        private System.Windows.Forms.ContextMenuStrip ContextMenuStripPlaylist;
-        private System.Windows.Forms.ContextMenuStrip ContextMenuStripVlcPlayerOverlayPanel;
+        private Traything.UI.CustomContextMenuStrip ContextMenuStripPlaylist;
+        private Traything.UI.CustomContextMenuStrip ContextMenuStripVlcPlayerOverlayPanel;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemToggleFullscreen;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemToggleMute;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparatorClose;
