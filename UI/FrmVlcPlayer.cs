@@ -421,21 +421,21 @@ namespace Traything.UI
 			Cursor.Current = Cursors.WaitCursor;
 
 			// Load playlist context menu items on-demand / on first context menu opening
-			if (this.VlcMedia.SubItems.Count > 0)
+			if (this.VlcMedia.SubItems.Count > 0 && this.ContextMenuStripPlaylist.Items.Count == 0)
 			{
-				if (this.ContextMenuStripPlaylist.Items.Count == 0)
-				{
-					foreach (Media item in this.VlcMedia.SubItems)
-					{
-						this.ContextMenuStripPlaylist.Items.Add(new ToolStripMenuItem
-						{
-							Text = item.Meta(MetadataType.Title),
-							Tag = item.Mrl
-						});
-					}
+				// Using a separate list instead of adding each item directly to the ContextMenuStrips significantly improves performance
+				List<ToolStripMenuItem> menuItems = new List<ToolStripMenuItem>(this.VlcMedia.SubItems.Count);
 
-					e.Cancel = false;
+				foreach (Media item in this.VlcMedia.SubItems)
+				{
+					menuItems.Add(new ToolStripMenuItem
+					{
+						Text = item.Meta(MetadataType.Title),
+						Tag = item.Mrl
+					});
 				}
+
+				this.ContextMenuStripPlaylist.Items.AddRange(menuItems.ToArray());
 			}
 
 			foreach (ToolStripMenuItem item in this.ContextMenuStripPlaylist.Items)
@@ -448,6 +448,7 @@ namespace Traything.UI
 			}
 
 			Cursor.Current = Cursors.Default;
+			e.Cancel = false;
 		}
 
 		private bool Mute_On = false;
