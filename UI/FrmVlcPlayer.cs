@@ -166,11 +166,11 @@ namespace Traything.UI
 				this.WindowState = FormWindowState.Minimized;
 			}
 
+			int i = 1;
 			if (inplaceActions != null && inplaceActions.Count > 0)
 			{
 				this.ToolStripSeparatorInplaceActions.Visible = true;
 
-				int i = 1;
 				foreach (ActionItem action in inplaceActions)
 				{
 					ToolStripMenuItem menuItem = new ToolStripMenuItem(action.Name);
@@ -180,6 +180,12 @@ namespace Traything.UI
 					i++;
 				}
 			}
+
+			// Always insert one dummy in-place action menu item
+			// When not doing this, the context menu stayed empty when not having any in-place actions (however)
+			ToolStripMenuItem dummyMenuItem = new ToolStripMenuItem();
+			dummyMenuItem.Visible = false;
+			this.ContextMenuStripVlcPlayerOverlayPanel.Items.Insert(this.ContextMenuStripVlcPlayerOverlayPanel.Items.IndexOf(this.ToolStripSeparatorInplaceActions) + i, dummyMenuItem);
 		}
 
 		private void LoadMediaAndPlay(string pathOrUrl)
