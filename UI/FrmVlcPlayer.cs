@@ -272,13 +272,13 @@ namespace Traything.UI
 			}
 		}
 
-		private void ButtonPlayPause_Click(object sender, EventArgs e)
+		private void ButtonPlayPause_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (Control.ModifierKeys == Keys.None)
+			if (e.Button == MouseButtons.Left)
 			{
 				this.VlcVideoView.MediaPlayer.Pause();
 			}
-			else
+			else if (e.Button == MouseButtons.Right)
 			{
 				this.PlayMedia(this.VlcVideoView.MediaPlayer.Media);
 			}
