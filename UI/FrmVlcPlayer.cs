@@ -274,7 +274,14 @@ namespace Traything.UI
 
 		private void ButtonPlayPause_Click(object sender, EventArgs e)
 		{
-			this.VlcVideoView.MediaPlayer.Pause();
+			if (Control.ModifierKeys == Keys.None)
+			{
+				this.VlcVideoView.MediaPlayer.Pause();
+			}
+			else
+			{
+				this.PlayMedia(this.VlcVideoView.MediaPlayer.Media);
+			}
 		}
 
 		private void TimerUpdatePlayProgress_Tick(object sender, EventArgs e)
